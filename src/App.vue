@@ -1,30 +1,32 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <Layout>
+    <Layout-Sider>23</Layout-Sider>
+    <Layout>
+      <Layout-Header>
+
+      </Layout-Header>
+      <Layout-Content>
+        <router-view/>
+      </Layout-Content>
+    </Layout>
+  </Layout>
 </template>
 
+<script lang="ts">
+  import {defineComponent} from 'vue'
+  import { Layout, LayoutSider, LayoutContent, LayoutHeader } from 'ant-design-vue'
+
+  export default defineComponent({
+    name: 'app',
+    components: {
+      Layout,
+      LayoutSider,
+      LayoutContent,
+      LayoutHeader
+    },
+  })
+</script>
+
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
