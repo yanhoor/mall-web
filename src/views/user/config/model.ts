@@ -1,6 +1,7 @@
 import ListFetchModel from "@/model/list_fetch_model";
 
 interface User {
+    id: number | string,
     name: string,
     age: number | string,
     mobile: number | string,
@@ -9,30 +10,32 @@ interface User {
 export default class UserModel extends ListFetchModel{
     showEdit: boolean = false
 
+    userForm: User
+
     constructor() {
         super();
+        this.userForm = this.initForm()
     }
 
-    user: User = {
-      name: '',
-      age: '',
-      mobile: '',
-    }
-
-    get userForm(){
-        return this.user
+    initForm(): User{
+        return {
+            id: '',
+            name: '',
+            age: '',
+            mobile: '',
+        }
     }
 
     async getList(): Promise<any> {
         return await this.$http.fetch(this.$urls.listUser, {page: this.currentPage}, { method: 'get' }).then(r => {
-            console.log('---------saveForm-----------', r);
             return r;
         })
     }
 
     async saveForm(){
         return await this.$http.fetch(this.$urls.saveUser, this.userForm).then(r => {
-            console.log('---------saveForm-----------', r);
+            this.showEdit = false
+            this.$message.success(r.msg)
         })
     }
 

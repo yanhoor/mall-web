@@ -50,7 +50,7 @@ export default {
         return {
             min: min,
             max: max,
-            message: '不能少于' + min + '个字或者大于' + max + '个字',
+            message: `仅限输入${min}-${max}个字符`,
             trigger: trigger
         }
     },
@@ -249,7 +249,7 @@ export default {
     },
 
     // 数值范围
-    number(min: number | Function, max: number | Function, trigger?: string){
+    range(min: number | Function, max: number | Function, trigger?: string){
         if (typeof (trigger) == 'undefined' || !trigger) {
             trigger = "blur";
         }
