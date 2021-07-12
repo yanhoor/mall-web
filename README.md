@@ -1,8 +1,16 @@
 # mall-web
 
+后台管理系统，[对应后端接口](https://github.com/yanhoor/koa2-elm)
+
 ## 技术栈
 
 `Vue3 + Vue-router + Vuex + Vue-cli + TypeScript + Ant-design + Less`
+
+## 项目运行
+
+- `npm i`
+
+- `npm run serve_dev`
 
 ## 插件使用
 

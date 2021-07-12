@@ -9,7 +9,9 @@ interface User {
 
 export default class UserModel extends ListFetchModel{
     showEdit: boolean = false
-
+    filterForm = {
+        name: ''
+    }
     userForm: User
 
     constructor() {
@@ -27,15 +29,19 @@ export default class UserModel extends ListFetchModel{
     }
 
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.listUser, {page: this.currentPage}, { method: 'get' }).then(r => {
+        return await this.$http.fetch(this.$urls.listUser, { ...this.filterForm}, { method: 'get' }).then(r => {
             return r;
         })
     }
 
     async saveForm(){
         return await this.$http.fetch(this.$urls.saveUser, this.userForm).then(r => {
-            this.showEdit = false
-            this.$message.success(r.msg)
+            if(r.success){
+                this.showEdit = false
+                this.$message.success(r.msg)
+            }else{
+                this.$message.error(r.msg)
+            }
         })
     }
 

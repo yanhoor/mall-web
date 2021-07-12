@@ -1,6 +1,6 @@
 export default {
     path: '/user',
-    name: 'User',
+    name: 'user',
     meta: {
         title: '用户'
     },

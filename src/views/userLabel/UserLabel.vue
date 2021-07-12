@@ -8,24 +8,24 @@
             </Col>
         </Row>
         <Button @click="model.refreshList()">查询</Button>
-        <Button @click="addUser">新增</Button>
+        <Button @click="addItem">新增</Button>
         <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction"></Table>
     </div>
-    <Drawer v-model:visible="model.showEdit" width="700" @close="model.closeEdit()" :title="model.userForm.id ? '编辑用户' : '新增用户'">
+    <Drawer v-model:visible="model.showEdit" width="700" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑用户' : '新增用户'">
         <Edit :model="model"></Edit>
     </Drawer>
 </template>
 
 <script lang="ts">
-    import {defineComponent, reactive, provide, isReactive, isRef} from 'vue'
+    import { defineComponent, reactive } from 'vue'
     import { Form, FormItem, Input, Drawer, Row, Col, Button } from 'ant-design-vue'
     import Table from '@/components/customAnt/table.vue'
-    import UserModel from "@/views/user/config/model";
     import Edit from './Edit.vue'
     import columns from "./config/columns";
+    import UserLabelModel from "@/views/userLabel/config/model";
 
     export default defineComponent({
-        name: 'user',
+        name: 'userLabel',
         components: {
             Edit,
             Table,
@@ -36,19 +36,16 @@
             Col,
             Input,
         },
-        setup(){
-            let model = reactive<UserModel>(new UserModel())
+        setup(props, ctx){
+            const model = reactive<UserLabelModel>(new UserLabelModel())
             model.initData()
             const form = model.filterForm
 
-            const handleAction = (type: string, data: any) => {
-                model.showEdit = true
-                model.userForm = Object.assign(model.userForm, data) // todo: 不可以直接赋值
-            }
+            const handleAction = () => {
 
-            const addUser = () => {
-                model.showEdit = true
-                model.userForm = Object.assign(model.userForm, model.initForm())
+            }
+            const addItem = () => {
+
             }
 
             return {
@@ -56,7 +53,7 @@
                 form,
                 columns,
                 handleAction,
-                addUser,
+                addItem,
             }
         }
     })

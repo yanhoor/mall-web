@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import userRoute from '@/views/user/config/route'
+import userLabelRoute from '@/views/userLabel/config/route'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -7,7 +8,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     redirect: '/user'
   },
-  userRoute
+  userRoute,
+  userLabelRoute,
 ]
 
 const router = createRouter({
