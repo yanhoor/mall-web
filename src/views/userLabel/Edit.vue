@@ -8,8 +8,8 @@
                     </Form-item>
                 </Col>
                 <Col :span="8">
-                    <Form-item label="年龄" name="age">
-                        <Input placeholder="请输入年龄" v-model:value="form.age"/>
+                    <Form-item label="颜色" name="color">
+                        <input type="color" v-model="form.color" />
                     </Form-item>
                 </Col>
             </Row>

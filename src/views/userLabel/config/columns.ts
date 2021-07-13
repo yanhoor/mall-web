@@ -1,5 +1,6 @@
 import {ColumnProps} from "ant-design-vue/es/table/interface";
-
+import { Tag } from 'ant-design-vue'
+import { h } from 'vue'
 
 export default <ColumnProps>[
     {
@@ -10,7 +11,12 @@ export default <ColumnProps>[
     {
         title: '颜色',
         dataIndex: 'color',
-        key: 'color'
+        key: 'color',
+        customRender: ({ text, record, index}: any) => {
+            return h(Tag, {
+                color: text,
+            }, text)
+        }
     },
     {
         title: '操作',

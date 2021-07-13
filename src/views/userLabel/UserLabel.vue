@@ -41,11 +41,13 @@
             model.initData()
             const form = model.filterForm
 
-            const handleAction = () => {
-
+            const handleAction = (type: string, data: any) => {
+                model.showEdit = true
+                model.itemForm = Object.assign(model.itemForm, data) // todo: 不可以直接赋值
             }
             const addItem = () => {
-
+                model.showEdit = true
+                model.itemForm = Object.assign(model.itemForm, model.initForm()) // todo: 不可以直接赋值
             }
 
             return {
