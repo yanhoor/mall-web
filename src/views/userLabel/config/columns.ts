@@ -13,9 +13,17 @@ export default <ColumnProps>[
         dataIndex: 'color',
         key: 'color',
         customRender: ({ text, record, index}: any) => {
-            return h(Tag, {
-                color: text,
-            }, text)
+            return h(
+                Tag,
+                {
+                    color: text,
+                },
+                {
+                    default(){
+                        return [text]
+                    }
+                }
+            )
         }
     },
     {
