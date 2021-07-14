@@ -38,7 +38,7 @@ export default class UserLabelModel extends ListFetchModel{
     }
 
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.userLabelList, { }, { method: 'get' }).then(r => {
+        return await this.$http.fetch(this.$urls.userLabelList, { ...this.pagination}, { method: 'get' }).then(r => {
             return r;
         })
     }

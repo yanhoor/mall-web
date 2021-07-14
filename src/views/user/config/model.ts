@@ -5,6 +5,7 @@ interface User {
     name: string,
     age: number | string,
     mobile: number | string,
+    labelList: []
 }
 
 export default class UserModel extends ListFetchModel{
@@ -13,6 +14,7 @@ export default class UserModel extends ListFetchModel{
         name: ''
     }
     userForm: User
+    labelList = []
 
     constructor() {
         super();
@@ -25,23 +27,32 @@ export default class UserModel extends ListFetchModel{
             name: '',
             age: '',
             mobile: '',
+            labelList: []
         }
     }
 
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.listUser, { ...this.filterForm}, { method: 'get' }).then(r => {
+        return await this.$http.fetch(this.$urls.listUser, { ...this.filterForm, ...this.pagination}, { method: 'get' }).then(r => {
             return r;
         })
     }
 
     async saveForm(){
-        return await this.$http.fetch(this.$urls.saveUser, this.userForm).then(r => {
+        const l = this.userForm.labelList.map((id) => this.labelList.find((label: {id: number}) => label.id == id)) as []
+
+        return await this.$http.fetch(this.$urls.saveUser, {...this.userForm, ...{labelList: l}}).then(r => {
             if(r.success){
                 this.showEdit = false
                 this.$message.success(r.msg)
             }else{
                 this.$message.error(r.msg)
             }
+        })
+    }
+
+    async getLabelList(): Promise<any> {
+        return await this.$http.fetch(this.$urls.userLabelList, { }, { method: 'get' }).then(r => {
+            this.labelList = r.list;
         })
     }
 

@@ -7,9 +7,9 @@
                 </Form-item>
             </Col>
         </Row>
-        <Button @click="model.refreshList()">查询</Button>
+        <Button @click="model.handleList()">查询</Button>
         <Button @click="addItem">新增</Button>
-        <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction"></Table>
+        <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction" :pagination="model.pagination" @tableChange="handleTableChange"></Table>
     </div>
     <Drawer v-model:visible="model.showEdit" width="700" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑用户' : '新增用户'">
         <Edit :model="model"></Edit>
@@ -49,6 +49,11 @@
                 model.showEdit = true
                 model.itemForm = Object.assign(model.itemForm, model.initForm()) // todo: 不可以直接赋值
             }
+            const handleTableChange = (page: any, filters: any, sorter: any) => {
+                model.pagination.current = page.current
+                model.pagination.pageSize = page.pageSize
+                model.handleList()
+            }
 
             return {
                 model,
@@ -56,6 +61,7 @@
                 columns,
                 handleAction,
                 addItem,
+                handleTableChange,
             }
         }
     })

@@ -1,18 +1,12 @@
 <template>
     <div class="page_container">
-        <Form layout="inline" :model="form" :rules="rules">
-            <Row>
-                <Col :span="8">
-                    <Form-item label="标签名称" name="name">
-                        <Input placeholder="请输入标签名称" v-model:value="form.name"/>
-                    </Form-item>
-                </Col>
-                <Col :span="8">
-                    <Form-item label="颜色" name="color">
-                        <input type="color" v-model="form.color" />
-                    </Form-item>
-                </Col>
-            </Row>
+        <Form :model="form" :rules="rules" :labelCol="{span: 3}" :wrapperCol="{span: 12}">
+            <Form-item label="标签名称" name="name">
+                <Input placeholder="请输入标签名称" v-model:value="form.name"/>
+            </Form-item>
+            <Form-item label="颜色" name="color">
+                <input type="color" v-model="form.color" />
+            </Form-item>
         </Form>
         <Row>
             <Button @click="model.saveForm()">保存</Button>

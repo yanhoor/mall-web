@@ -1,10 +1,16 @@
 import PageFetchModel from "@/model/page_fetch_model";
+import {PaginationProps} from "ant-design-vue/es";
 
 export default abstract class ListFetchModel extends PageFetchModel{
 
-    pageSize: number = 20
-
-    currentPage: number = 1
+    // 分页配置
+    pagination: PaginationProps = {
+        current: 1,
+        pageSize: 20,
+        total: 0,
+        pageSizeOptions: ['5', '10', '20', '30'],
+        showSizeChanger: true
+    }
 
     pageList: Array<any> = []
 
@@ -13,7 +19,7 @@ export default abstract class ListFetchModel extends PageFetchModel{
 
         this.getOther();
         await this.getListParam();
-        await this.refreshList();
+        await this.handleList();
     }
 
     // 获取列表查询参数
@@ -25,50 +31,18 @@ export default abstract class ListFetchModel extends PageFetchModel{
 
     }
 
-    async refreshList() {
+    async handleList() {
         try {
-            this.currentPage = 1;
-            let data: Array<any>;
             let res = await this.getList();
-            data = res ?? [];
-            this.pageList = [];
+            this.pagination.total = res.amount;
+            this.pageList = res.list ?? [];
             this.setCompleted();
-            if (data.length === 0) {
-                this.setEmpty();
-            } else {
-                this.pageList = data;
-                if (data.length < this.pageSize) {
-                    this.setNoMore();
-                }
-            }
         } catch (e) {
             this.setError();
         }
     }
 
-    async loadMore(){
-        try {
-            this.currentPage ++;
-            let data: Array<any>;
-            let res = await this.getList();
-            data = res ?? [];
-            this.setCompleted();
-            if (data.length === 0) {
-                this.currentPage --;
-                this.setNoMore();
-            } else {
-                this.pageList = this.pageList.concat(data);
-                if (data.length < this.pageSize) {
-                    this.setNoMore();
-                }
-            }
-        } catch (e) {
-            console.log(e);
-            this.setError();
-        }
-    }
-
-    abstract getList(): Promise<Array<any>>;
+    abstract getList(): Promise<any>;
 
     // 没用到
     getData(): Promise<any> {
