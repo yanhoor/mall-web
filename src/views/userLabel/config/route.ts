@@ -1,5 +1,5 @@
 export default {
-    path: '/userLabel',
+    path: 'userLabel',
     name: 'userLabel',
     meta: {
         title: '用户标签'

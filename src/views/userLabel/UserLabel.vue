@@ -7,7 +7,7 @@
                 </Form-item>
             </Col>
         </Row>
-        <Button @click="model.handleList()">查询</Button>
+        <Button @click="model.getListData()">查询</Button>
         <Button @click="addItem">新增</Button>
         <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction" :pagination="model.pagination" @tableChange="handleTableChange"></Table>
     </div>
@@ -52,7 +52,7 @@
             const handleTableChange = (page: any, filters: any, sorter: any) => {
                 model.pagination.current = page.current
                 model.pagination.pageSize = page.pageSize
-                model.handleList()
+                model.getListData()
             }
 
             return {

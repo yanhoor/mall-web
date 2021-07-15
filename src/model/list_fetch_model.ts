@@ -19,7 +19,7 @@ export default abstract class ListFetchModel extends PageFetchModel{
 
         this.getOther();
         await this.getListParam();
-        await this.handleList();
+        await this.getListData();
     }
 
     // 获取列表查询参数
@@ -31,7 +31,7 @@ export default abstract class ListFetchModel extends PageFetchModel{
 
     }
 
-    async handleList() {
+    async getListData() {
         try {
             let res = await this.getList();
             this.pagination.total = res.amount;

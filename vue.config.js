@@ -70,7 +70,7 @@ module.exports = {
     devServer: {
         // host: '0.0.0.0',
         hot: true,
-        port: '8082',
+        port: '9099',
         open: false, // 配置自动启动浏览器
         // hotOnly: true,
         https: false,
