@@ -1,6 +1,6 @@
 <template>
-    <div class="custom_table">
-        <Table size="middle" :dataSource="dataSource" :rowKey="rowKey" :pagination="pagination" @change="handleTableChange">
+    <div class="custom_table" ref="tableContainerRef">
+        <Table size="middle" :scroll="{y: tableScrollHeight}"  :dataSource="dataSource" :rowKey="rowKey" :pagination="model.pagination" @change="handleTableChange">
             <TableColumn
                     v-for="column of resultColumns"
                     :key="column.key"
@@ -36,7 +36,8 @@
 <script lang="ts">
     import { Table, TableColumn, Button } from 'ant-design-vue'
     import { TableState, TableStateFilters } from 'ant-design-vue/es/table/interface';
-    import { defineComponent, toRaw, computed } from 'vue'
+    import { defineComponent, ref, computed, onMounted, nextTick, watch } from 'vue'
+    import ListFetchModel from "@/model/list_fetch_model";
 
     type Pagination = TableState['pagination'];
 
@@ -59,8 +60,11 @@
                 type: String,
                 default: 'id'
             },
-            pagination: {
+            model: {
                 type: Object,
+                validator(value){
+                    return value instanceof ListFetchModel
+                },
                 required: true
             },
         },
@@ -69,13 +73,19 @@
             TableColumn,
             Button,
         },
-        setup(props: {columns: Array<any>}, ctx){
+        setup(props: {columns: Array<any>, model: any, dataSource: Array<any>}, ctx){
+            const tableContainerRef = ref()
+            const tableScrollHeight = ref()
+
             const handleActionClick = (event: string, data: any) => {
                 ctx.emit('actionClick', event, data)
             }
 
             const handleTableChange = (page: Pagination, filters: TableStateFilters, sorter: any) => {
                 ctx.emit('tableChange', page, filters, sorter)
+                props.model.pagination.current = page?.current
+                props.model.pagination.pageSize = page?.pageSize
+                props.model.getListData()
             }
 
             const resultColumns = computed(() => {
@@ -90,7 +100,35 @@
                 return props.columns
             })
 
+            const adjustTable = async () => {
+                const rh = document.querySelector('#layoutRight')?.clientHeight as number
+                const dh = document.documentElement.clientHeight
+                if(tableContainerRef.value){
+                    const offset = tableContainerRef.value.getBoundingClientRect()
+                    console.log(rh, dh)
+                    console.log(offset)
+                    if(rh > dh){
+                        tableScrollHeight.value = offset.height - (rh - dh) - 110
+                    }else{
+                        tableScrollHeight.value = rh - offset.top - 150
+                    }
+                    console.log(tableScrollHeight.value)
+                }
+            }
+
+            watch(() => props.dataSource, (v) => {
+                if(v.length > 0){
+                    adjustTable()
+                }
+            }, { deep: true, flush: 'post' })
+
+            onMounted(() => {
+                window.addEventListener('resize', adjustTable)
+            })
+
             return {
+                tableContainerRef,
+                tableScrollHeight,
                 resultColumns,
                 handleActionClick,
                 handleTableChange,
