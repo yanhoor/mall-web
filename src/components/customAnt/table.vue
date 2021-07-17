@@ -41,6 +41,12 @@
 
     type Pagination = TableState['pagination'];
 
+    interface Props{
+        columns: Array<any>,
+        model: any,
+        dataSource: Array<any>
+    }
+
     export default defineComponent({
         name: 'custom-table',
         props: {
@@ -73,7 +79,7 @@
             TableColumn,
             Button,
         },
-        setup(props: {columns: Array<any>, model: any, dataSource: Array<any>}, ctx){
+        setup(props: Props, ctx){
             const tableContainerRef = ref()
             const tableScrollHeight = ref()
 
@@ -105,14 +111,11 @@
                 const dh = document.documentElement.clientHeight
                 if(tableContainerRef.value){
                     const offset = tableContainerRef.value.getBoundingClientRect()
-                    console.log(rh, dh)
-                    console.log(offset)
                     if(rh > dh){
                         tableScrollHeight.value = offset.height - (rh - dh) - 110
                     }else{
                         tableScrollHeight.value = rh - offset.top - 150
                     }
-                    console.log(tableScrollHeight.value)
                 }
             }
 

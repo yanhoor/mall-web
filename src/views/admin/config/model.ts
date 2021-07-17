@@ -7,13 +7,13 @@ export default class AdminModel extends PageFetchModel{
         password: '',
         create_time: '',
         modify_time: '',
+        avatar: '',
     }
 
     async getUserInfo(){
         return await this.$http.fetch(this.$urls.adminInfo).then(r => {
             if(r.success){
                 this.form = Object.assign(this.form, r.info)
-                console.log('====================', this.form)
             }else{
                 this.$message.error(r.msg)
             }
