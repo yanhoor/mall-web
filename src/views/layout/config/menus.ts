@@ -1,4 +1,4 @@
-import { PaperClipOutlined, TeamOutlined, TagOutlined, UserOutlined, ShopOutlined } from '@ant-design/icons-vue';
+import { PaperClipOutlined, TeamOutlined, TagOutlined, UserOutlined, ShopOutlined, PartitionOutlined } from '@ant-design/icons-vue';
 
 export default [
     {
@@ -27,9 +27,16 @@ export default [
             },
             {
                 key: 5,
-                title: '商铺管理',
+                title: '商铺数据',
                 icon: ShopOutlined,
-                path: '/shop'
+                children: [
+                    {
+                        key: 6,
+                        title: '店铺分类',
+                        icon: PartitionOutlined,
+                        path: '/shopCategory',
+                    },
+                ]
             },
         ],
     },

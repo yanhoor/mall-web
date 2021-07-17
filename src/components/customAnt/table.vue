@@ -118,7 +118,7 @@
                         tableScrollHeight.value = rh - offset.top - 150
                     }
                 }
-            }, 500)
+            }, 20)
 
             watch(() => props.dataSource, (v) => {
                 if(v.length > 0){

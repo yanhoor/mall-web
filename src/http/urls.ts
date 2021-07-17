@@ -10,4 +10,7 @@ export default {
     userLabelList: '/user/label_list',
     userLabelSave: '/user/label_save',
     upload: '/upload',
+    shopCategoryList: '/shop/category_list',
+    shopCategorySave: '/shop/category_save',
+    addressChildren: '/address/query_children',
 }

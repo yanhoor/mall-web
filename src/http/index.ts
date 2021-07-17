@@ -1,5 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import PageStateModel from "@/model/page_state_model";
+import router from '@/router'
 
 const baseURL = process.env.VUE_APP_ENV === 'dev' ? '/api' : process.env.VUE_APP_BASE_URL;
 
@@ -29,6 +30,14 @@ class Http {
         // 响应拦截配置
         this.api.interceptors.response.use(response => {
             // console.table(`响应拦截-->`, response.data);
+            if(response.data.code == 900 && router.currentRoute.value.path != '/login'){
+                router.push({
+                    path: '/login',
+                    query: {
+                        from: router.currentRoute.value.fullPath
+                    }
+                })
+            }
             return response.data;
         }, error => {
             console.log(`响应拦截出错-->`, error);
