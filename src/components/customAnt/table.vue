@@ -38,6 +38,7 @@
     import { TableState, TableStateFilters } from 'ant-design-vue/es/table/interface';
     import { defineComponent, ref, computed, onMounted, nextTick, watch } from 'vue'
     import ListFetchModel from "@/model/list_fetch_model";
+    import { debounce } from 'lodash'
 
     type Pagination = TableState['pagination'];
 
@@ -106,7 +107,7 @@
                 return props.columns
             })
 
-            const adjustTable = async () => {
+            const adjustTable = debounce(async () => {
                 const rh = document.querySelector('#layoutRight')?.clientHeight as number
                 const dh = document.documentElement.clientHeight
                 if(tableContainerRef.value){
@@ -117,7 +118,7 @@
                         tableScrollHeight.value = rh - offset.top - 150
                     }
                 }
-            }
+            }, 500)
 
             watch(() => props.dataSource, (v) => {
                 if(v.length > 0){

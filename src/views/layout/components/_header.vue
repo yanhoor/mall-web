@@ -5,8 +5,7 @@
         </BreadcrumbItem>
     </Breadcrumb>
     <Dropdown>
-        <Avatar size="large" style="margin-right: 20px">
-            <template #icon> <UserOutlined></UserOutlined> </template>
+        <Avatar size="large" style="margin-right: 20px" :src="avatar">
         </Avatar>
         <template #overlay>
             <Menu>
@@ -18,12 +17,14 @@
 </template>
 
 <script lang="ts">
-    import {defineComponent, ref} from 'vue'
+    import {defineComponent, createVNode, computed} from 'vue'
+    import { useStore } from 'vuex'
     import { useRouter, useRoute } from 'vue-router'
-    import { Breadcrumb, BreadcrumbItem, Button, Avatar, Dropdown, Menu, MenuItem, message } from 'ant-design-vue'
-    import { UserOutlined } from '@ant-design/icons-vue'
+    import { Breadcrumb, BreadcrumbItem, Button, Avatar, Dropdown, Menu, MenuItem, message, Modal } from 'ant-design-vue'
+    import { UserOutlined, ExclamationCircleOutlined  } from '@ant-design/icons-vue'
     import $http from '@/http'
     import urls from '@/http/urls'
+    import * as storeTypes from '@/store/types'
 
     export default defineComponent({
         name: 'layout-header',
@@ -40,6 +41,8 @@
         setup(props, ctx){
             const router = useRouter()
             const routes = useRoute()
+            const store = useStore()
+            store.dispatch(storeTypes.UPDATE_ADMIN)
 
             const clickMenu = (num: number) => {
                 switch (num) {
@@ -47,11 +50,17 @@
                         router.push('/admin')
                         break
                     case 2:
-                        $http.fetch(urls.adminLogout).then(r => {
-                            if(r.success){
-                                router.push('/login')
-                            }
-                            message.success(r.msg)
+                        Modal.confirm({
+                            title: '确认退出？',
+                            icon: createVNode(ExclamationCircleOutlined),
+                            onOk(){
+                                $http.fetch(urls.adminLogout).then(r => {
+                                    if(r.success){
+                                        router.push('/login')
+                                    }
+                                    message.success(r.msg)
+                                })
+                            },
                         })
                 }
             }
@@ -59,6 +68,9 @@
             return {
                 routes,
                 clickMenu,
+                avatar: computed(() => {
+                    return urls.IMG_HOST + store.state.admin?.avatar ?? ''
+                })
             }
         }
     })
