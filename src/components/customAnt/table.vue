@@ -1,6 +1,34 @@
+
+<!--
+todo: scroll 和 expandedRowRender 一起用报错？
+注意：
+1. 在 columns 里自定义渲染，需要有 customRender，返回文本或 Vue 的 h() 函数
+2. 可展开行：传入 props: expanded，使用 expand 命名插槽
+
+
+事件：
+1. actionClick：点击操作栏按钮触发，需要在columns里配置key: 'action' 和 action 数组
+    {
+        title: '操作',
+        key: 'action',
+        actions: [
+            {title: '编辑', event: 'edit'}
+        ]
+    }
+
+2. tableChange：表格原有的 change 事件
+-->
+
 <template>
     <div class="custom_table" ref="tableContainerRef">
-        <Table size="middle" :scroll="{y: tableScrollHeight}"  :dataSource="dataSource" :rowKey="rowKey" :pagination="model.pagination" @change="handleTableChange">
+        <Table
+                size="middle"
+                :scroll="{y: tableScrollHeight}"
+                :dataSource="dataSource"
+                :rowKey="rowKey"
+                :pagination="model.pagination"
+                @change="handleTableChange"
+                :rowClassName="(record, index) => (index % 2 === 1 ? 'table-striped' : null)">
             <TableColumn
                     v-for="column of resultColumns"
                     :key="column.key"
@@ -15,13 +43,6 @@
                         </template>
                     </div>
 
-                    <!--自定义渲染函数-->
-                    <div v-else-if="column.key === 'render'">
-                        <template v-for="action of column.actions">
-                            <Button @click.stop="handleActionClick(action.event, record)" type="link">{{ action.title }}</Button>
-                        </template>
-                    </div>
-
                     <!--序号-->
                     <span v-else-if="column.key === 'index'">{{ index + 1}}</span>
 
@@ -29,6 +50,9 @@
                     <span v-else>{{ text }}</span>
                 </template>
             </TableColumn>
+            <template #expandedRowRender="{ record }" v-if="expanded">
+                <slot name="expand" :record="record"></slot>
+            </template>
         </Table>
     </div>
 </template>
@@ -45,28 +69,38 @@
     interface Props{
         columns: Array<any>,
         model: any,
-        dataSource: Array<any>
+        dataSource: Array<any>,
+        expanded: boolean,
     }
 
     export default defineComponent({
         name: 'custom-table',
         props: {
+            // 列表数据
             dataSource: {
                 type: Array,
                 default(){
                     return []
                 }
             },
+            // 列配置
             columns: {
                 type: Array,
                 default(){
                     return []
                 }
             },
+            // 行数据key
             rowKey: {
                 type: String,
                 default: 'id'
             },
+            // 行展开
+            expanded: {
+                type: Boolean,
+                default: false
+            },
+            // 页面model
             model: {
                 type: Object,
                 validator(value){
@@ -140,3 +174,9 @@
         }
     })
 </script>
+
+<style lang="less" scoped>
+    :deep(.table-striped) {
+        background-color: #fafafa;
+    }
+</style>
