@@ -5,11 +5,10 @@ interface User {
     name: string,
     age: number | string,
     mobile: number | string,
-    labelList: []
+    labelIds: []
 }
 
 export default class UserModel extends ListFetchModel{
-    showEdit: boolean = false
     filterForm = {
         name: ''
     }
@@ -27,27 +26,18 @@ export default class UserModel extends ListFetchModel{
             name: '',
             age: '',
             mobile: '',
-            labelList: []
+            labelIds: []
         }
     }
 
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.listUser, { ...this.filterForm, ...this.pagination}, { method: 'get' }).then(r => {
+        return await this.$http.fetch(this.$urls.listUser, { ...this.filterForm, ...this.getPaginationParams()}, { method: 'get' }).then(r => {
             return r;
         })
     }
 
-    async saveForm(){
-        const l = this.userForm.labelList.map((id) => this.labelList.find((label: {id: number}) => label.id == id)) as []
-
-        return await this.$http.fetch(this.$urls.saveUser, {...this.userForm, ...{labelList: l}}).then(r => {
-            if(r.success){
-                this.showEdit = false
-                this.$message.success(r.msg)
-            }else{
-                this.$message.error(r.msg)
-            }
-        })
+    async postForm(){
+        return await this.$http.fetch(this.$urls.saveUser, {...this.userForm})
     }
 
     async getLabelList(): Promise<any> {

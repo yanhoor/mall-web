@@ -1,13 +1,18 @@
 <template>
     <Upload :showUploadList="false" :customRequest="customRequest">
-        <img :src="imgFullPath" alt="" v-if="imgPath" class="img_preview">
-        <PlusOutlined v-else></PlusOutlined>
+        <Tooltip v-if="value" title="点击修改">
+            <img :src="imgFullPath" alt="" class="img_preview">
+        </Tooltip>
+        <div v-else class="upload_action">
+            <PlusOutlined style="font-size: 36px;"></PlusOutlined>
+            <p>点击上传</p>
+        </div>
     </Upload>
 </template>
 
 <script lang="ts">
     import { defineComponent, computed } from 'vue'
-    import { Upload } from 'ant-design-vue'
+    import { Upload, Tooltip } from 'ant-design-vue'
     import { PlusOutlined } from '@ant-design/icons-vue'
     import $http from '@/http'
     import urls from '@/http/urls'
@@ -24,13 +29,16 @@
     }
 
     interface Props{
-        typeList: Array<string>
+        typeList: Array<string>,
+        value: string,
+        uploadPath: string,
     }
 
     export default defineComponent({
         name: 'custom-upload',
         components: {
             Upload,
+            Tooltip,
             PlusOutlined,
         },
         props: {
@@ -40,19 +48,19 @@
                     return ['.jpg', '.jpeg', '.png', '.gif']
                 }
             },
-            imgPath: {
+            value: {
                 type: String,
                 default: ''
             },
             uploadPath: {
                 type: String,
-                required: true
+                default: '/upload'
             },
         },
-        emit: ['completed'],
+        emit: ['completed', 'update:value'],
         setup(props: any, ctx){
             const imgFullPath = computed(() => {
-                return urls.IMG_HOST + props.imgPath
+                return urls.IMG_HOST + props.value
             })
 
             const beforeUpload = (file: FileItem, fileList?: Array<FileItem>) => {
@@ -64,9 +72,10 @@
             const customRequest = (prop: any) => {
                 const { file } = prop
                 if(beforeUpload(file)){
-                    $http.fetch(props.uploadPath, { file }, { formData: true }).then(r => {
+                    $http.fetch(props.uploadPath, { file, lastFilePath: props.value }, { formData: true }).then(r => {
                         if(r.success){
                             ctx.emit('completed', r.path)
+                            ctx.emit('update:value', r.path)
                         }
                     })
                 }
@@ -83,7 +92,20 @@
 
 <style lang="less" scoped>
     .img_preview{
-        width: 120px;
-        max-height: 120px;
+        width: 128px;
+        max-height: 128px;
+    }
+    .upload_action{
+        width: 128px;
+        height: 128px;
+        border: 1px dashed #dedede;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #999;
+        >p{
+            text-align: center;
+            margin-top: 10px;
+        }
     }
 </style>

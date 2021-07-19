@@ -9,8 +9,18 @@
         </Avatar>
         <template #overlay>
             <Menu>
-                <a-menu-item @click.stop="clickMenu(1)">个人信息</a-menu-item>
-                <a-menu-item @click.stop="clickMenu(2)">退出</a-menu-item>
+                <a-menu-item @click.stop="clickMenu(1)">
+                    <template #icon>
+                        <UserOutlined />
+                    </template>
+                    个人信息
+                </a-menu-item>
+                <a-menu-item @click.stop="clickMenu(2)">
+                    <template #icon>
+                        <LogoutOutlined />
+                    </template>
+                    退出
+                </a-menu-item>
             </Menu>
         </template>
     </Dropdown>
@@ -21,7 +31,7 @@
     import { useStore } from 'vuex'
     import { useRouter, useRoute } from 'vue-router'
     import { Breadcrumb, BreadcrumbItem, Button, Avatar, Dropdown, Menu, MenuItem, message, Modal } from 'ant-design-vue'
-    import { UserOutlined, ExclamationCircleOutlined  } from '@ant-design/icons-vue'
+    import { UserOutlined, ExclamationCircleOutlined, LogoutOutlined  } from '@ant-design/icons-vue'
     import $http from '@/http'
     import urls from '@/http/urls'
     import * as storeTypes from '@/store/types'
@@ -37,6 +47,7 @@
             Menu,
             [MenuItem.name]: MenuItem,
             UserOutlined,
+            LogoutOutlined,
         },
         setup(props, ctx){
             const router = useRouter()

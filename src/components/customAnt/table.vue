@@ -75,6 +75,11 @@ todo: scroll 和 expandedRowRender 一起用报错？
 
     export default defineComponent({
         name: 'custom-table',
+        components: {
+            Table,
+            TableColumn,
+            Button,
+        },
         props: {
             // 列表数据
             dataSource: {
@@ -109,11 +114,7 @@ todo: scroll 和 expandedRowRender 一起用报错？
                 required: true
             },
         },
-        components: {
-            Table,
-            TableColumn,
-            Button,
-        },
+        emits: ['actionClick', 'tableChange'],
         setup(props: Props, ctx){
             const tableContainerRef = ref()
             const tableScrollHeight = ref()

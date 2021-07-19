@@ -6,7 +6,7 @@
             <DescriptionsItem label="注册时间">{{ form.create_time }}</DescriptionsItem>
             <DescriptionsItem label="最后修改时间">{{ form.modify_time }}</DescriptionsItem>
             <DescriptionsItem label="头像">
-                <Upload @completed="uploadCompleted" :img-path="form.avatar" :uploadPath="adminUpdateAvatar"></Upload>
+                <Upload @completed="uploadCompleted" v-model:value="form.avatar" :uploadPath="adminUpdateAvatar"></Upload>
             </DescriptionsItem>
         </Descriptions>
     </div>

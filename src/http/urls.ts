@@ -12,5 +12,7 @@ export default {
     upload: '/upload',
     shopCategoryList: '/shop/category_list',
     shopCategorySave: '/shop/category_save',
+    shopList: '/shop/list',
+    shopSave: '/shop/save',
     addressChildren: '/address/query_children',
 }

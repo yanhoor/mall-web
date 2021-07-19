@@ -7,7 +7,6 @@ interface UserLabel {
 }
 
 export default class UserLabelModel extends ListFetchModel{
-    showEdit: boolean = false
     filterForm = {
         name: ''
     }
@@ -26,19 +25,12 @@ export default class UserLabelModel extends ListFetchModel{
         }
     }
 
-    async saveForm(){
-        return await this.$http.fetch(this.$urls.userLabelSave, this.itemForm).then(r => {
-            if(r.success){
-                this.showEdit = false
-                this.$message.success(r.msg)
-            }else{
-                this.$message.error(r.msg)
-            }
-        })
+    async postForm(){
+        return await this.$http.fetch(this.$urls.userLabelSave, this.itemForm)
     }
 
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.userLabelList, { ...this.pagination}, { method: 'get' }).then(r => {
+        return await this.$http.fetch(this.$urls.userLabelList, { ...this.getPaginationParams()}, { method: 'get' }).then(r => {
             return r;
         })
     }

@@ -32,6 +32,12 @@ export default [
                 children: [
                     {
                         key: 6,
+                        title: '店铺管理',
+                        icon: ShopOutlined,
+                        path: '/shop',
+                    },
+                    {
+                        key: 7,
                         title: '店铺分类',
                         icon: PartitionOutlined,
                         path: '/shopCategory',

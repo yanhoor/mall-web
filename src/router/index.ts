@@ -39,6 +39,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import( '@/views/userLabel/UserLabel.vue')
       },
       {
+        path: 'shop',
+        name: 'shop',
+        meta: {
+          title: '店铺管理'
+        },
+        component: () => import( '@/views/shop/List.vue')
+      },
+      {
         path: 'shopCategory',
         name: 'shopCategory',
         meta: {

@@ -2,6 +2,7 @@ import PageFetchModel from "@/model/page_fetch_model";
 import {PaginationProps} from "ant-design-vue/es";
 
 export default abstract class ListFetchModel extends PageFetchModel{
+    showEdit: boolean = false
 
     // 分页配置
     pagination: PaginationProps = {
@@ -43,6 +44,26 @@ export default abstract class ListFetchModel extends PageFetchModel{
     }
 
     abstract getList(): Promise<any>;
+
+    async saveForm(){
+        const r = await this.postForm()
+        if(r.success){
+            this.refresh()
+            this.showEdit = false
+            this.$message.success(r.msg)
+        }else{
+            this.$message.error(r.msg)
+        }
+    }
+
+    abstract postForm(): Promise<any>;
+
+    getPaginationParams(){
+        return {
+            current: this.pagination.current,
+            pageSize: this.pagination.pageSize,
+        }
+    }
 
     // 没用到
     getData(): Promise<any> {

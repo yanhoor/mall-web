@@ -11,15 +11,16 @@
         <Button @click="addItem">新增</Button>
         <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction" :model="model"></Table>
     </div>
-    <Drawer v-model:visible="model.showEdit" width="700" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑用户' : '新增用户'">
+    <Drawer v-model:visible="model.showEdit" width="500" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑店铺标签' : '新增店铺标签'">
         <Edit :model="model"></Edit>
     </Drawer>
 </template>
 
 <script lang="ts">
     import { defineComponent, reactive } from 'vue'
-    import { Form, FormItem, Input, Drawer, Row, Col, Button } from 'ant-design-vue'
+    import { Form, FormItem, Input, Row, Col, Button } from 'ant-design-vue'
     import Table from '@/components/customAnt/table.vue'
+    import Drawer from '@/components/customAnt/drawer.vue'
     import Edit from './Edit.vue'
     import columns from "./config/columns";
     import ShopCategoryModel from "@/views/shopCategory/config/model";

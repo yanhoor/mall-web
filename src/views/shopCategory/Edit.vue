@@ -1,6 +1,6 @@
 <template>
     <div class="page_container">
-        <Form :model="form" :rules="rules" :labelCol="{span: 3}" :wrapperCol="{span: 12}">
+        <Form :model="form" :rules="rules" :labelCol="{span: 6}" :wrapperCol="{span: 12}">
             <Form-item label="分类名称" name="name">
                 <Input placeholder="请输入分类名称" v-model:value="form.name"/>
             </Form-item>
