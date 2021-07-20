@@ -3,6 +3,8 @@ import * as storeTypes from './types'
 import $http from "@/http"
 import urls from "@/http/urls"
 import permission from './modules/permission'
+import { initAsyncRoutes } from '@/router'
+
 
 export default createStore({
   modules: {
@@ -23,6 +25,7 @@ export default createStore({
           if(r.success){
             commit(storeTypes.UPDATE_ADMIN, r.info)
             resolve(r.info)
+            initAsyncRoutes()
           }
         })
       })

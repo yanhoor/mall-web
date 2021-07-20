@@ -3,7 +3,8 @@ import jsCookie from 'js-cookie'
 import store from '@/store'
 import * as storeTypes from '@/store/types'
 
-const allAuth = ['super']
+const allAuth = ['super', 'admin']
+const superAuth = ['super']
 
 export const constantRoutes: Array<RouteRecordRaw> = [
     // 参考：https://next.router.vuejs.org/zh/guide/essentials/dynamic-matching.html#%E6%8D%95%E8%8E%B7%E6%89%80%E6%9C%89%E8%B7%AF%E7%94%B1%E6%88%96-404-not-found-%E8%B7%AF%E7%94%B1
@@ -34,7 +35,7 @@ export const asyncRoutes = [
     name: 'user',
     meta: {
       title: '用户',
-      roles: allAuth
+      roles: superAuth
     },
     component: () => import( '@/views/user/User.vue')
   },
@@ -43,7 +44,7 @@ export const asyncRoutes = [
     name: 'userLabel',
     meta: {
       title: '用户标签',
-      roles: allAuth
+      roles: superAuth
     },
     component: () => import( '@/views/userLabel/UserLabel.vue')
   },
@@ -52,7 +53,7 @@ export const asyncRoutes = [
     name: 'shop',
     meta: {
       title: '店铺管理',
-      roles: allAuth
+      roles: superAuth
     },
     component: () => import( '@/views/shop/List.vue')
   },
@@ -61,7 +62,7 @@ export const asyncRoutes = [
     name: 'shopCategory',
     meta: {
       title: '店铺分类',
-      roles: allAuth
+      roles: superAuth
     },
     component: () => import( '@/views/shopCategory/List.vue')
   },
@@ -82,27 +83,26 @@ const router = createRouter({
 })
 
 // 添加用户的授权路由
-async function initAsyncRoutes(){
-  return new Promise((resolve, reject) => {
+export async function initAsyncRoutes(){
+  return new Promise<void>((resolve, reject) => {
     try{
       // 获取用户信息，获取对应权限
-      store.dispatch(storeTypes.UPDATE_ADMIN).then(r => {
-        const { roles } = r
-        const currentRoutes = router.getRoutes()
-        currentRoutes.forEach(route => {
-          if(route.meta.roles) router.removeRoute(route.name as string) // 先清空上一次已添加的授权路由
+      const admin = store.state.admin as any
+      const roles = admin && admin.roles
+      const currentRoutes = router.getRoutes()
+      currentRoutes.forEach(route => {
+        if(route.meta.roles) router.removeRoute(route.name as string) // 先清空上一次已添加的授权路由
+      })
+      // 根据用户权限动态添加对应授权的路由
+      store.dispatch(`permission/${storeTypes.GENERATE_ROUTES}`, roles).then( (routes: Array<any>) => {
+        console.log('新的授权路由', routes)
+        routes.forEach( route => {
+          router.addRoute('Home',route)
         })
-        // 根据用户权限动态添加对应授权的路由
-        store.dispatch(`permission/${storeTypes.GENERATE_ROUTES}`, roles).then( (routes: Array<any>) => {
-          console.log('新的授权路由', routes)
-          routes.forEach( route => {
-            router.addRoute('Home',route)
-          })
-          resolve(true)
-        })
+        resolve()
       })
     }catch(e){
-      reject(false)
+      reject()
     }
   })
 }
@@ -117,7 +117,7 @@ router.beforeEach( (to, from) => {
     }else{
       // console.log('beforeEach', store.state.admin)
       if(!store.state.admin){
-        initAsyncRoutes().then(res => {
+        store.dispatch(storeTypes.UPDATE_ADMIN).then(res => {
           console.log('允许的路由', router.getRoutes())
           resolve(to.path) // 直接使用 resolve() 会进空白页，不会进404
         }).catch(e => {
