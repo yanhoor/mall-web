@@ -2,17 +2,14 @@ import { createStore } from 'vuex'
 import * as storeTypes from './types'
 import $http from "@/http"
 import urls from "@/http/urls"
+import permission from './modules/permission'
 
 export default createStore({
+  modules: {
+    permission,
+  },
   state: {
-    admin: {
-      id: '',
-      mobile: '',
-      password: '',
-      create_time: '',
-      modify_time: '',
-      avatar: '',
-    }
+    admin: null
   },
   mutations: {
     [storeTypes.UPDATE_ADMIN](state, payload){
@@ -20,14 +17,15 @@ export default createStore({
     }
   },
   actions: {
-    [storeTypes.UPDATE_ADMIN]({ commit }, payload){
-      $http.fetch(urls.adminInfo).then( r => {
-        if(r.success){
-          commit(storeTypes.UPDATE_ADMIN, r.info)
-        }
+    [storeTypes.UPDATE_ADMIN]({ commit }): Promise<any>{
+      return new Promise( (resolve, reject) => {
+        $http.fetch(urls.adminInfo).then( r => {
+          if(r.success){
+            commit(storeTypes.UPDATE_ADMIN, r.info)
+            resolve(r.info)
+          }
+        })
       })
     }
   },
-  modules: {
-  }
 })

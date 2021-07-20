@@ -1,1 +1,2 @@
 export const UPDATE_ADMIN = 'UPDATE_ADMIN'
+export const GENERATE_ROUTES = 'GENERATE_ROUTES'

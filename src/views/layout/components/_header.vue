@@ -34,7 +34,6 @@
     import { UserOutlined, ExclamationCircleOutlined, LogoutOutlined  } from '@ant-design/icons-vue'
     import $http from '@/http'
     import urls from '@/http/urls'
-    import * as storeTypes from '@/store/types'
 
     export default defineComponent({
         name: 'layout-header',
@@ -53,7 +52,6 @@
             const router = useRouter()
             const routes = useRoute()
             const store = useStore()
-            store.dispatch(storeTypes.UPDATE_ADMIN)
 
             const clickMenu = (num: number) => {
                 switch (num) {

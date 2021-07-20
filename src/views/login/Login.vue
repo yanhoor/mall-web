@@ -24,6 +24,8 @@
 <script lang="ts">
     import { defineComponent, reactive, ref } from 'vue'
     import { useRouter, useRoute } from 'vue-router'
+    import { useStore } from 'vuex'
+    import * as storeTypes from '@/store/types'
     import { Form, FormItem, Input, Drawer, Row, Space, Button } from 'ant-design-vue'
     import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
     import LoginModel from './config/model'
@@ -43,24 +45,27 @@
         setup(props, ctx){
             const formRef = ref()
             const router = useRouter()
+            const store = useStore()
             const model = reactive<LoginModel>(new LoginModel())
             const form = model.form
             const rules = formRules
 
+            // 清空登录信息
+            store.commit(storeTypes.UPDATE_ADMIN, null)
+
             const validateForm = async (type: number) => {
-                formRef.value.validate().then( (r: any) => {
-                    if(type === 1){
-                        model.login().then(res => {
-                            if(res){
-                                router.replace({name: 'Home'})
-                            }
-                        })
-                    }else if(type === 2){
-                        model.register()
-                    }
-                }).catch((e: any) => {
+                const r = await formRef.value.validate().catch((e: any) => {
                     model.$message.error('请将信息填写完整')
+                    throw new Error()
                 })
+                if(type === 1){
+                    const res = await model.login()
+                    if(res){
+                        router.push({name: 'Home'})
+                    }
+                }else if(type === 2){
+                    model.register()
+                }
             }
 
             return {
