@@ -12,9 +12,10 @@ function checkPermission(route: any, roles: Array<string>){
 function filterAuthRoutes(routes: any, roles: Array<string>){
     let result: any[] = []
     routes.forEach((route: any) => {
-        if(checkPermission(route, roles)){
-            if(route.children) route.children = filterAuthRoutes(route.children, roles)
-            result.push(route)
+        let tmp = {...route}
+        if(checkPermission(tmp, roles)){
+            if(tmp.children) tmp.children = filterAuthRoutes(tmp.children, roles)
+            result.push(tmp)
         }
     })
     return result
@@ -34,7 +35,7 @@ export default {
     },
     actions: {
         [storeTypes.GENERATE_ROUTES]({ commit }: any, roles: Array<string> = []){
-            // console.log('roles-----', roles)
+            console.log('asyncRoutes-----', asyncRoutes, roles)
             return new Promise((resolve, reject) => {
                 let result: any[] = []
                 if(roles.includes('super')){

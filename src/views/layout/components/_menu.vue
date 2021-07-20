@@ -51,11 +51,22 @@
 </template>
 
 <script lang="ts">
-    import {defineComponent, ref} from 'vue'
+    import {defineComponent, ref, computed} from 'vue'
     import { useRouter, useRoute } from 'vue-router'
     import Icon from '@ant-design/icons-vue'
     import { Layout, LayoutSider, LayoutContent, LayoutHeader, Menu, SubMenu, MenuItem, Card } from 'ant-design-vue'
-    import menus from '../config/menus'
+    import menuList from '../config/menus'
+
+    function filterMenus(menus: Array<any>, routes: Array<any>){
+        let result: Array<any> = []
+        menus.forEach(menu => {
+            let tmp = {...menu}
+            if(tmp.children) tmp.children = filterMenus(tmp.children, routes) // 先处理子菜单
+            // 有子菜单才能添加上一级菜单
+            if(routes.includes(tmp.path) || (tmp.children && tmp.children.length)) result.push(tmp)
+        })
+        return result
+    }
 
     export default defineComponent({
         name: 'layout-menu',
@@ -75,6 +86,9 @@
             const openKeyList = ref<string[]>([])
             const selectedKeyList = ref<string[]>([])
 
+            const allRoutes = router.getRoutes().map(item => item.path)
+            const menus = computed(() => filterMenus(menuList, allRoutes))
+
             const menuClick = (menu: any) => {
                 // console.log('subMenuClick', menu)
                 router.push(menu.path)
@@ -84,6 +98,7 @@
                 menus,
                 openKeyList,
                 selectedKeyList,
+                allRoutes,
                 menuClick,
             }
         }

@@ -26,6 +26,7 @@
     import { useRouter, useRoute } from 'vue-router'
     import { useStore } from 'vuex'
     import * as storeTypes from '@/store/types'
+    import jsCookie from 'js-cookie'
     import { Form, FormItem, Input, Drawer, Row, Space, Button } from 'ant-design-vue'
     import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
     import LoginModel from './config/model'
@@ -51,6 +52,7 @@
             const rules = formRules
 
             // 清空登录信息
+            jsCookie.remove('SID')
             store.commit(storeTypes.UPDATE_ADMIN, null)
 
             const validateForm = async (type: number) => {

@@ -20,7 +20,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
-    redirect: '/user',
+    redirect: '/admin',
     meta: {
       title: '首页'
     },
@@ -62,7 +62,7 @@ export const asyncRoutes = [
     name: 'shopCategory',
     meta: {
       title: '店铺分类',
-      roles: superAuth
+      roles: allAuth
     },
     component: () => import( '@/views/shopCategory/List.vue')
   },
@@ -88,7 +88,7 @@ export async function initAsyncRoutes(){
     try{
       // 获取用户信息，获取对应权限
       const admin = store.state.admin as any
-      const roles = admin && admin.roles
+      const roles = admin ? admin.roles : []
       const currentRoutes = router.getRoutes()
       currentRoutes.forEach(route => {
         if(route.meta.roles) router.removeRoute(route.name as string) // 先清空上一次已添加的授权路由
@@ -111,9 +111,10 @@ router.beforeEach( (to, from) => {
   return new Promise((resolve, reject) => {
     const sid = jsCookie.get('SID')
     // console.log('beforeEach', to)
-    if(!sid && to.meta.roles){
-      // 需要权限，但是未登录
-      resolve('/login')
+    if(!sid){
+      // 需要权限
+      if(to.meta.roles) resolve('/login')
+      resolve()
     }else{
       // console.log('beforeEach', store.state.admin)
       if(!store.state.admin){
