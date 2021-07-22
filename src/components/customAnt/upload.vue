@@ -1,5 +1,5 @@
 <template>
-    <Upload :showUploadList="false" :customRequest="customRequest">
+    <Upload :showUploadList="false" :customRequest="customRequest" accept="image/*">
         <Tooltip v-if="value" title="点击修改">
             <img :src="imgFullPath" alt="" class="img_preview">
         </Tooltip>

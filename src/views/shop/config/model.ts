@@ -25,7 +25,8 @@ interface Item {
 
 export default class ShopModel extends ListFetchModel{
     filterForm = {
-        name: ''
+        name: '',
+        shop_category_id: '',
     }
     itemForm: Item
     cateList = []
@@ -66,8 +67,20 @@ export default class ShopModel extends ListFetchModel{
         return await this.$http.fetch(this.$urls.shopSave, this.itemForm)
     }
 
+    async getDetail(id: string){
+        return await this.$http.fetch(this.$urls.shopDetail, { id }, { method: 'get' }).then(r => {
+            if(r.success){
+                const data = r.info
+                data.codeList = [data.provinceCode, data.cityCode, data.countyCode]
+                this.itemForm = Object.assign(this.itemForm, data)
+            }else if(r.msg){
+                this.$message.error(r.msg)
+            }
+        })
+    }
+
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.shopList, { ...this.getPaginationParams()}, { method: 'get' }).then(r => {
+        return await this.$http.fetch(this.$urls.shopList, { ...this.getPaginationParams(), ...this.filterForm}, { method: 'get' }).then(r => {
             return r;
         })
     }

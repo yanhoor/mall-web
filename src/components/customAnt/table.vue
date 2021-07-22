@@ -132,11 +132,19 @@ todo: scroll 和 expandedRowRender 一起用报错？
 
             const resultColumns = computed(() => {
                 const hasIndex = props.columns.some((column) => column.key === 'index')
+                const hasLastTime = props.columns.some((column) => column.key === 'modify_time')
                 if(!hasIndex){
                     props.columns.unshift({
                         title: '#',
                         dataIndex: '',
                         key: 'index'
+                    })
+                }
+                if(!hasLastTime){
+                    props.columns.splice(-1, 0, {
+                        title: '最后修改时间',
+                        dataIndex: 'modify_time',
+                        key: 'modify_time'
                     })
                 }
                 return props.columns

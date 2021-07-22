@@ -14,5 +14,6 @@ export default {
     shopCategorySave: '/shop/category_save',
     shopList: '/shop/list',
     shopSave: '/shop/save',
+    shopDetail: '/shop/detail',
     addressChildren: '/address/query_children',
 }

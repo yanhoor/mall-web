@@ -32,9 +32,15 @@ export default [
                 children: [
                     {
                         key: 6,
-                        title: '店铺管理',
+                        title: '店铺列表',
                         icon: ShopOutlined,
                         path: '/shop',
+                    },
+                    {
+                        key: 8,
+                        title: '店铺管理',
+                        icon: ShopOutlined,
+                        path: '/shopDetail',
                     },
                     {
                         key: 7,

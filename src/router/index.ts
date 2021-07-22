@@ -58,11 +58,20 @@ export const asyncRoutes = [
     component: () => import( '@/views/shop/List.vue')
   },
   {
+    path: 'shopDetail',
+    name: 'ShopDetail',
+    meta: {
+      title: '店铺管理',
+      roles: allAuth
+    },
+    component: () => import( '@/views/shop/Detail.vue')
+  },
+  {
     path: 'shopCategory',
     name: 'shopCategory',
     meta: {
       title: '店铺分类',
-      roles: allAuth
+      roles: superAuth
     },
     component: () => import( '@/views/shopCategory/List.vue')
   },

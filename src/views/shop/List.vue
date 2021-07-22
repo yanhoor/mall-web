@@ -1,14 +1,30 @@
 <template>
     <div>
-        <Row>
-            <Col :span="8">
-                <Form-item label="分类名称">
-                    <Input placeholder="请输入分类名称" v-model:value="form.name"/>
-                </Form-item>
-            </Col>
-        </Row>
-        <Button @click="model.getListData()">查询</Button>
-        <Button @click="addItem">新增</Button>
+        <div class="filter_wrapper">
+            <Form layout="inline" ref="formRef" :model="form">
+                <Row style="width: 100%" :gutter="[0, 10]">
+                    <Col :span="8">
+                        <Form-item label="店铺名称" name="name">
+                            <Input placeholder="请输入店铺名称" v-model:value="form.name"/>
+                        </Form-item>
+                    </Col>
+                    <Col :span="8">
+                        <Form-item label="店铺类别" name="shop_category_id">
+                            <Select v-model:value="form.shop_category_id">
+                                <SelectOption v-for="cate of model.cateList" :key="cate.id" :value="cate.id">
+                                    {{ cate.name }}
+                                </SelectOption>
+                            </Select>
+                        </Form-item>
+                    </Col>
+                </Row>
+            </Form>
+            <div class="filter_action_wrapper">
+                <Button @click="model.getListData()">查询</Button>
+                <Button @click="resetForm">重置</Button>
+                <Button @click="addItem">新增</Button>
+            </div>
+        </div>
         <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction" :model="model" :expanded="true">
             <template #expand="{record}">
                 <Form layout="inline" :labelCol="{span: 14}" :wrapperCol="{span: 24}" class="table_form">
@@ -39,18 +55,24 @@
                     <FormItem label="地址">
                         <span class="expand_item_content">{{ record.headAddress + record.tailAddress }}</span>
                     </FormItem>
+                    <FormItem label="创建时间">
+                        <span class="expand_item_content">{{ record.create_time }}</span>
+                    </FormItem>
+                    <FormItem label="最后修改时间">
+                        <span class="expand_item_content">{{ record.modify_time }}</span>
+                    </FormItem>
                 </Form>
             </template>
         </Table>
     </div>
-    <Drawer v-model:visible="model.showEdit" width="500" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑店铺信息' : '新增店铺信息'">
+    <Drawer v-model:visible="model.showEdit" width="600" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑店铺信息' : '新增店铺信息'">
         <Edit :model="model"></Edit>
     </Drawer>
 </template>
 
 <script lang="ts">
-    import { defineComponent, reactive } from 'vue'
-    import { Form, FormItem, Input, Row, Col, Button } from 'ant-design-vue'
+    import { defineComponent, reactive, ref } from 'vue'
+    import { Form, FormItem, Input, Row, Col, Button, Select, SelectOption } from 'ant-design-vue'
     import Table from '@/components/customAnt/table.vue'
     import Drawer from '@/components/customAnt/drawer.vue'
     import Edit from './Edit.vue'
@@ -69,16 +91,23 @@
             Row,
             Col,
             Input,
+            Select,
+            SelectOption,
         },
         setup(props, ctx){
             const model = reactive<ShopModel>(new ShopModel())
+            const formRef = ref()
             model.initData()
             const form = model.filterForm
+            model.getCateList()
 
+            const resetForm = () => {
+                formRef.value.resetFields()
+                model.initData()
+            }
             const handleAction = (type: string, data: any) => {
                 model.showEdit = true
-                data.codeList = [data.provinceCode, data.cityCode, data.countyCode]
-                model.itemForm = Object.assign(model.itemForm, data) // todo: 不可以直接赋值
+                model.getDetail(data.id)
                 model.getCateList()
             }
             const addItem = () => {
@@ -90,7 +119,9 @@
             return {
                 model,
                 form,
+                formRef,
                 columns,
+                resetForm,
                 handleAction,
                 addItem,
             }
@@ -100,6 +131,10 @@
 
 <style lang="less" scoped>
     @import "~@/assets/style/variables";
+
+    .filter_action_wrapper{
+        margin: 10px 0;
+    }
 
     .table_form{
         :deep(.ant-form-item){

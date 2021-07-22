@@ -39,6 +39,11 @@
         level: number,
     }
 
+    interface Props{
+        addressName?: string,
+        codeList?: string[],
+    }
+
     export default defineComponent({
         name: 'custom-address-picker',
         components: {
