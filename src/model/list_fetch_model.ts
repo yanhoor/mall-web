@@ -51,6 +51,7 @@ export default abstract class ListFetchModel extends PageFetchModel{
             this.refresh()
             this.showEdit = false
             this.$message.success(r.msg)
+            return r
         }else{
             this.$message.error(r.msg)
         }
