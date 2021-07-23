@@ -27,7 +27,7 @@ export default [
             },
             {
                 key: 5,
-                title: '商铺数据',
+                title: '店铺数据',
                 icon: ShopOutlined,
                 children: [
                     {

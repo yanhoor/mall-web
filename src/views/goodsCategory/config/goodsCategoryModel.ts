@@ -10,7 +10,7 @@ interface Item{
     shop_id: number | string,
 }
 
-export default class FoodCategoryModel extends ListFetchModel{
+export default class GoodsCategoryModel extends ListFetchModel{
     itemForm: Item
     treeData: Item[] = []
 
@@ -40,11 +40,11 @@ export default class FoodCategoryModel extends ListFetchModel{
     }
 
     async getCategoryChildren(shop_id: number, parent_id: number){
-        return await this.$http.fetch(this.$urls.foodCategoryChildren, { shop_id, parent_id }, { method: 'get' })
+        return await this.$http.fetch(this.$urls.goodsCategoryChildren, { shop_id, parent_id }, { method: 'get' })
     }
 
     async postForm(){
-        return await this.$http.fetch(this.$urls.foodCategoryAdd, this.itemForm)
+        return await this.$http.fetch(this.$urls.goodsCategoryAdd, this.itemForm)
     }
 
     getList(): Promise<any> {

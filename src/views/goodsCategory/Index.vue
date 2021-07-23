@@ -2,7 +2,7 @@
     <div>
         <h3>商品分类管理</h3>
         <Button @click="onAddFirst">添加一级分类</Button>
-        <Tree show-line :treeData="foodModel.treeData" :replace-fields="{ key: 'id', title: 'name' }" :load-data="onLoadData">
+        <Tree show-line :treeData="goodsModel.treeData" :replace-fields="{ key: 'id', title: 'name' }" :load-data="onLoadData">
             <template #title="{ dataRef }">
                 <Dropdown :trigger="['contextmenu']">
                     <span>{{ dataRef.name }}</span>
@@ -17,7 +17,7 @@
             </template>
         </Tree>
     </div>
-    <Modal v-model:visible="foodModel.showEdit" :title="menuKey == 1 ? '修改分类名称' : '新增下级分类'" @ok="saveFoodCate">
+    <Modal v-model:visible="goodsModel.showEdit" :title="menuKey == 1 ? '修改分类名称' : '新增下级分类'" @ok="saveGoodsCate">
         <Form :model="itemForm">
             <Form-item label="上级分类" v-if="menuKey == 2">
                 <Input disabled :value="editNode?.name ?? '无'"/>
@@ -32,7 +32,7 @@
 <script lang="ts">
     import {defineComponent, reactive, watch, ref} from 'vue'
     import { useStore } from 'vuex'
-    import FoodCategoryModel from "./config/foodCategoryModel"
+    import GoodsCategoryModel from "./config/goodsCategoryModel"
     import { Tree, Button, Modal, Form, Input, FormItem, Dropdown, Menu, MenuItem, Row, Col } from 'ant-design-vue'
 
     export default defineComponent({
@@ -51,37 +51,37 @@
             [MenuItem.name]: MenuItem,
         },
         setup(props, ctx){
-            const foodModel = reactive<FoodCategoryModel>(new FoodCategoryModel())
+            const goodsModel = reactive<GoodsCategoryModel>(new GoodsCategoryModel())
             const store = useStore()
             let editNode = ref() // 选中编辑的节点
             let menuKey = ref() // 选中的右键菜单
-            let itemForm = foodModel.itemForm
+            let itemForm = goodsModel.itemForm
 
             const shopId = store.state.admin.shop_id
 
-            foodModel.initTreeData(shopId)
+            goodsModel.initTreeData(shopId)
 
             const onAddFirst = () => {
                 editNode.value = null
-                foodModel.itemForm = Object.assign(foodModel.itemForm, foodModel.initForm()) // todo: 不可以直接赋值
-                console.log(foodModel.itemForm)
+                goodsModel.itemForm = Object.assign(goodsModel.itemForm, goodsModel.initForm()) // todo: 不可以直接赋值
+                console.log(goodsModel.itemForm)
                 console.log(itemForm)
-                foodModel.showEdit = true
+                goodsModel.showEdit = true
             }
 
-            const saveFoodCate = () => {
+            const saveGoodsCate = () => {
                 itemForm.shop_id = shopId
                 if(!itemForm.name){
-                    foodModel.$message.error('请输入分类名称')
+                    goodsModel.$message.error('请输入分类名称')
                     return
                 }
-                foodModel.saveForm().then( r => {
+                goodsModel.saveForm().then( r => {
                     if(menuKey.value == 1){
                         editNode.value.name = r.data.name
                         return
                     }
                     if(!editNode.value){
-                        foodModel.treeData.push(r.data)
+                        goodsModel.treeData.push(r.data)
                     }else if(editNode.value.children){
                         editNode.value.children.push(r.data)
                     }else{
@@ -97,7 +97,7 @@
                     case '1':
                         editNode.value = node
                         itemForm = Object.assign(itemForm, node)
-                        foodModel.showEdit = true
+                        goodsModel.showEdit = true
                         break
 
                     case '2':
@@ -105,7 +105,7 @@
                         itemForm.parent_id = node.id
                         itemForm.name = ''
                         itemForm.level = node.level + 1
-                        foodModel.showEdit = true
+                        goodsModel.showEdit = true
                         break
                 }
             }
@@ -115,7 +115,7 @@
                     if (treeNode.dataRef.children) {
                         return resolve()
                     }
-                    foodModel.getCategoryChildren(shopId, treeNode.dataRef.id).then(r => {
+                    goodsModel.getCategoryChildren(shopId, treeNode.dataRef.id).then(r => {
                         if(r.success){
                             treeNode.dataRef.children = r.list
                             return resolve()
@@ -128,12 +128,12 @@
             }
 
             return {
-                foodModel,
+                goodsModel,
                 itemForm,
                 editNode,
                 menuKey,
                 onAddFirst,
-                saveFoodCate,
+                saveGoodsCate,
                 onContextMenuClick,
                 onLoadData,
             }
