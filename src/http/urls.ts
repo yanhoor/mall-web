@@ -17,5 +17,9 @@ export default {
     shopDetail: '/shop/detail',
     goodsCategoryAdd: '/goods/category_add',
     goodsCategoryChildren: '/goods/category_children',
+    goodsSave: '/goods/save',
+    goodsList: '/goods/list',
+    goodsLabelList: '/goods/label_list',
+    goodsLabelSave: '/goods/label_save',
     addressChildren: '/address/query_children',
 }

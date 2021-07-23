@@ -50,6 +50,25 @@ export default [
                     },
                 ]
             },
+            {
+                key: 9,
+                title: '商品数据',
+                icon: TeamOutlined,
+                children: [
+                    {
+                        key: 10,
+                        title: '商品管理',
+                        icon: TeamOutlined,
+                        path: '/goods'
+                    },
+                    {
+                        key: 11,
+                        title: '商品标签',
+                        icon: TagOutlined,
+                        path: '/goodsLabel'
+                    },
+                ]
+            },
         ],
     },
     {

@@ -11,7 +11,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     // 如果路由不存在，$route.params.pathMatch 返回一个数组，包含想要进入的路由url（值等于url.split('/')，如 `/userLabel/23` 返回 ["userLabel", "23"]）。否则得到 undefined
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     meta: {
       title: '登录'
     },
@@ -32,7 +32,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
 export const asyncRoutes = [
   {
     path: 'user',
-    name: 'user',
+    name: 'User',
     meta: {
       title: '用户',
       roles: superAuth
@@ -41,7 +41,7 @@ export const asyncRoutes = [
   },
   {
     path: 'userLabel',
-    name: 'userLabel',
+    name: 'UserLabel',
     meta: {
       title: '用户标签',
       roles: superAuth
@@ -50,7 +50,7 @@ export const asyncRoutes = [
   },
   {
     path: 'shop',
-    name: 'shop',
+    name: 'Shop',
     meta: {
       title: '店铺管理',
       roles: superAuth
@@ -68,7 +68,7 @@ export const asyncRoutes = [
   },
   {
     path: 'shopCategory',
-    name: 'shopCategory',
+    name: 'ShopCategory',
     meta: {
       title: '店铺分类',
       roles: superAuth
@@ -76,8 +76,17 @@ export const asyncRoutes = [
     component: () => import( '@/views/shopCategory/List.vue')
   },
   {
+    path: 'goodsLabel',
+    name: 'GoodsLabel',
+    meta: {
+      title: '商品标签',
+      roles: superAuth
+    },
+    component: () => import( '@/views/goodsLabel/List.vue')
+  },
+  {
     path: 'admin',
-    name: 'admin',
+    name: 'Admin',
     meta: {
       title: '个人信息',
       roles: allAuth
