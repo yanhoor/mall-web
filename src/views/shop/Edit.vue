@@ -81,6 +81,8 @@
 
 <script lang="ts">
     import {defineComponent, reactive, watch, ref} from 'vue'
+    import { useStore } from 'vuex'
+    import * as storeTypes from '@/store/types'
     import { Form, Input, FormItem, Row, Col, Button, Textarea, Select, SelectOption, RangePicker, InputNumber } from 'ant-design-vue'
     import ShopModel from './config/model'
     import formRules from './config/formRules'
@@ -117,6 +119,7 @@
             AddressPicker,
         },
         setup(props: Props, ctx){
+            const store = useStore()
             let model = props.model as ShopModel
             let form = model.itemForm
             const rules = formRules
@@ -125,7 +128,11 @@
             const validateForm = () => {
                 formRef.value.validate().then( (r: any) => {
                     if (form.codeList.length < 3) throw new Error('请选择完整地址')
-                    model.saveForm()
+                    model.saveForm().then(r => {
+                        if(r){
+                            store.dispatch(storeTypes.UPDATE_ADMIN)
+                        }
+                    })
                 }).catch((e: any) => {
                     model.$message.error(e.message ?? '请将信息填写完整')
                 })

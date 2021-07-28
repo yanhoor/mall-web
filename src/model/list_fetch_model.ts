@@ -54,6 +54,7 @@ export default abstract class ListFetchModel extends PageFetchModel{
             return r
         }else{
             this.$message.error(r.msg)
+            return false
         }
     }
 

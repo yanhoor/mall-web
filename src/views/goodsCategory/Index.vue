@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-    import {defineComponent, reactive, watch, ref} from 'vue'
+    import {defineComponent, reactive, computed, ref} from 'vue'
     import { useStore } from 'vuex'
     import GoodsCategoryModel from "./config/goodsCategoryModel"
     import { Tree, Button, Modal, Form, Input, FormItem, Dropdown, Menu, MenuItem, Row, Col } from 'ant-design-vue'
@@ -57,20 +57,18 @@
             let menuKey = ref() // 选中的右键菜单
             let itemForm = goodsModel.itemForm
 
-            const shopId = store.state.admin.shop_id
+            const shopId = computed(() => store.state.admin.shop_id)
 
-            goodsModel.initTreeData(shopId)
+            goodsModel.initTreeData(shopId.value)
 
             const onAddFirst = () => {
                 editNode.value = null
                 goodsModel.itemForm = Object.assign(goodsModel.itemForm, goodsModel.initForm()) // todo: 不可以直接赋值
-                console.log(goodsModel.itemForm)
-                console.log(itemForm)
                 goodsModel.showEdit = true
             }
 
             const saveGoodsCate = () => {
-                itemForm.shop_id = shopId
+                itemForm.shop_id = shopId.value
                 if(!itemForm.name){
                     goodsModel.$message.error('请输入分类名称')
                     return
@@ -115,7 +113,7 @@
                     if (treeNode.dataRef.children) {
                         return resolve()
                     }
-                    goodsModel.getCategoryChildren(shopId, treeNode.dataRef.id).then(r => {
+                    goodsModel.getCategoryChildren(shopId.value, treeNode.dataRef.id).then(r => {
                         if(r.success){
                             treeNode.dataRef.children = r.list
                             return resolve()

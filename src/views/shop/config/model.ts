@@ -62,8 +62,7 @@ export default class ShopModel extends ListFetchModel{
     }
 
     async postForm(){
-        [ this.itemForm.provinceCode, this.itemForm.cityCode, this.itemForm.countyCode ] = this.itemForm.codeList;
-        console.log(this.itemForm);
+        [ this.itemForm.provinceCode, this.itemForm.cityCode, this.itemForm.countyCode ] = this.itemForm.codeList
         return await this.$http.fetch(this.$urls.shopSave, this.itemForm)
     }
 

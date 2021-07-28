@@ -76,11 +76,20 @@ export const asyncRoutes = [
     component: () => import( '@/views/shopCategory/List.vue')
   },
   {
+    path: 'goods',
+    name: 'Goods',
+    meta: {
+      title: '商品管理',
+      roles: allAuth
+    },
+    component: () => import( '@/views/goods/List.vue')
+  },
+  {
     path: 'goodsLabel',
     name: 'GoodsLabel',
     meta: {
       title: '商品标签',
-      roles: superAuth
+      roles: allAuth
     },
     component: () => import( '@/views/goodsLabel/List.vue')
   },
@@ -129,7 +138,7 @@ router.beforeEach( (to, from) => {
   return new Promise((resolve, reject) => {
     const sid = jsCookie.get('SID')
     // console.log('beforeEach', to)
-    if(!sid){
+    if(!sid || to.path == '/login'){
       // 需要权限
       if(to.meta.roles) resolve('/login')
       resolve()

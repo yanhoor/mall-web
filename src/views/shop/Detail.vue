@@ -1,15 +1,23 @@
 <template>
     <div class="detail_wrapper">
-        <Edit :model="model" :colSpan="12"></Edit>
+        <Row>
+            <Col :span="8">
+                <GoodsCategory></GoodsCategory>
+            </Col>
+            <Col :span="16">
+                <Edit :model="model" :colSpan="24"></Edit>
+            </Col>
+        </Row>
     </div>
 </template>
 
 <script lang="ts">
-    import {defineComponent, reactive, watch, ref} from 'vue'
+    import {defineComponent, reactive, watch, ref, computed} from 'vue'
     import { useStore } from 'vuex'
     import Edit from './Edit.vue'
     import ShopModel from "@/views/shop/config/model"
-    import { Card, Button } from 'ant-design-vue'
+    import { Card, Button, Row, Col } from 'ant-design-vue'
+    import GoodsCategory from '../goodsCategory/Index.vue'
 
     export default defineComponent({
         name: 'shop-detail',
@@ -17,15 +25,18 @@
             Edit,
             Card,
             Button,
+            Row,
+            Col,
+            GoodsCategory,
         },
         setup(props, ctx){
             const model = reactive<ShopModel>(new ShopModel())
             const store = useStore()
 
-            const shopId = store.state.admin.shop_id
+            const shopId = computed(() => store.state.admin.shop_id)
             model.getCateList()
-            if(shopId){
-                model.getDetail(shopId)
+            if(shopId.value){
+                model.getDetail(shopId.value)
             }
 
             return {

@@ -54,7 +54,7 @@
             },
             uploadPath: {
                 type: String,
-                default: '/upload'
+                default: '/file/upload'
             },
         },
         emit: ['completed', 'update:value'],
