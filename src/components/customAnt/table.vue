@@ -23,6 +23,7 @@ todo: scroll 和 expandedRowRender 一起用报错？
     <div class="custom_table" ref="tableContainerRef">
         <Table
                 size="middle"
+                :rowSelection="allowSelect ? rowSelection : null"
                 :scroll="{y: tableScrollHeight}"
                 :dataSource="dataSource"
                 :rowKey="rowKey"
@@ -59,18 +60,20 @@ todo: scroll 和 expandedRowRender 一起用报错？
 
 <script lang="ts">
     import { Table, TableColumn, Button } from 'ant-design-vue'
-    import { TableState, TableStateFilters } from 'ant-design-vue/es/table/interface';
+    import { TableState, ColumnProps, TableStateFilters } from 'ant-design-vue/es/table/interface';
     import { defineComponent, ref, computed, onMounted, nextTick, watch } from 'vue'
-    import ListFetchModel from "@/model/list_fetch_model";
+    import ListFetchModel from "@/model/list_fetch_model"
     import { debounce } from 'lodash'
 
-    type Pagination = TableState['pagination'];
+    type Pagination = TableState['pagination']
+    type Key = ColumnProps['key']
 
     interface Props{
         columns: Array<any>,
         model: any,
         dataSource: Array<any>,
         expanded: boolean,
+        allowSelect: boolean,
     }
 
     export default defineComponent({
@@ -113,8 +116,14 @@ todo: scroll 和 expandedRowRender 一起用报错？
                 },
                 required: true
             },
+            // 行选择
+            allowSelect: {
+                type: Boolean,
+                default: false
+            },
         },
-        emits: ['actionClick', 'tableChange'],
+        // actionClick--操作列操作按钮点击事件，tableChange--ant table原生change事件，rowChecked--行选择事件
+        emits: ['actionClick', 'tableChange', 'rowChecked'],
         setup(props: Props, ctx){
             const tableContainerRef = ref()
             const tableScrollHeight = ref()
@@ -163,6 +172,20 @@ todo: scroll 和 expandedRowRender 一起用报错？
                 }
             }, 20)
 
+            const rowSelection = {
+                onChange: (selectedRowKeys: Key[], selectedRows: any[]) => {
+                    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                    if(props.allowSelect){
+                        ctx.emit('rowChecked', selectedRows)
+                    }
+                },
+                getCheckboxProps: (record: any) => ({
+                    // disabled: record.name === '67', // 不可选择
+                    // checked: record.name === '67', // 选中
+                    name: record.name,
+                }),
+            }
+
             watch(() => props.dataSource, (v) => {
                 if(v.length > 0){
                     adjustTable()
@@ -179,6 +202,7 @@ todo: scroll 和 expandedRowRender 一起用报错？
                 resultColumns,
                 handleActionClick,
                 handleTableChange,
+                rowSelection,
             }
         }
     })

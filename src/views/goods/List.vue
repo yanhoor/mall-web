@@ -10,11 +10,16 @@
         </Row>
         <Button @click="model.getListData()">查询</Button>
         <Button @click="addItem">新增</Button>
+        <Button @click="exportExcel">导出</Button>
         <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction" :model="model"></Table>
     </div>
     <Drawer v-model:visible="model.showEdit" width="600" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑商品' : '新增商品'">
         <Edit :model="model"></Edit>
     </Drawer>
+    <iframe name="download" style="display: none"></iframe>
+    <form action="/api/goods/export/goods_export" target="download" id="downloadForm" style="display: none">
+        <input type="text" name="name" value="23">
+    </form>
 </template>
 
 <script lang="ts">
@@ -26,6 +31,7 @@
     import Edit from './Edit.vue'
     import columns from "./config/columns"
     import CategorySelect from './components/_categorySelect.vue'
+    import $http from '@/http'
 
     export default defineComponent({
         name: 'goods-list',
@@ -60,6 +66,12 @@
                 model.getLabelList()
             }
 
+            const exportExcel = () => {
+                // $http.fetch('/goods/export/fileName', {}, {method: 'get', responseType: 'arraybuffer'})
+                const form = document.querySelector('#downloadForm') as HTMLFormElement
+                form.submit()
+            }
+
             return {
                 model,
                 form,
@@ -67,6 +79,7 @@
                 handleAction,
                 addItem,
                 cateIdList,
+                exportExcel,
             }
         }
     })
