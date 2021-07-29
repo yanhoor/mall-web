@@ -3,6 +3,7 @@ import ListFetchModel from "@/model/list_fetch_model";
 interface Item {
     id: number | string,
     name: string,
+    icon: string,
 }
 
 export default class ShopCategoryModel extends ListFetchModel{
@@ -20,6 +21,7 @@ export default class ShopCategoryModel extends ListFetchModel{
         return {
             id: '',
             name: '',
+            icon: '',
         }
     }
 

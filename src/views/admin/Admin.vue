@@ -1,6 +1,7 @@
 <template>
     <div>
         <Descriptions title="个人信息" bordered>
+            <DescriptionsItem label="用户名">{{ form.name }}</DescriptionsItem>
             <DescriptionsItem label="手机号">{{ form.mobile }}</DescriptionsItem>
             <DescriptionsItem label="密码">{{ form.password }}</DescriptionsItem>
             <DescriptionsItem label="注册时间">{{ form.create_time }}</DescriptionsItem>

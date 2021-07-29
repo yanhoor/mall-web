@@ -1,13 +1,28 @@
-import PageFetchModel from '@/model/page_fetch_model'
+import ListFetchModel from "@/model/list_fetch_model";
 
-export default class AdminModel extends PageFetchModel{
-    form = {
+interface Item {
+    id: number | string,
+    name: string,
+    mobile: string,
+    password: string,
+    avatar: string,
+    create_time: string,
+    modify_time: string,
+}
+
+export default class AdminModel extends ListFetchModel{
+    form: Item = {
         id: '',
+        name: '',
         mobile: '',
         password: '',
         create_time: '',
         modify_time: '',
         avatar: '',
+    }
+    filterForm = {
+        name: '',
+        mobile: '',
     }
 
     async getUserInfo(){
@@ -21,6 +36,16 @@ export default class AdminModel extends PageFetchModel{
     }
 
     getData(): Promise<any> {
+        return Promise.resolve(undefined);
+    }
+
+    async getList(): Promise<any> {
+        return await this.$http.fetch(this.$urls.adminList, { ...this.filterForm, ...this.getPaginationParams()}, { method: 'get' }).then(r => {
+            return r;
+        })
+    }
+
+    postForm(): Promise<any> {
         return Promise.resolve(undefined);
     }
 }

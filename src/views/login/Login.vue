@@ -2,9 +2,14 @@
     <div class="login_page">
         <div class="container">
             <Form ref="formRef" :rules="rules" :model="form" :labelCol="{span: 6}" :wrapperCol="{span: 18}">
+                <FormItem label="用户名" name="name" v-if="isRegister">
+                    <Input v-model:value="form.name">
+                        <template #prefix> <UserOutlined twoToneColor="#52c41a"></UserOutlined> </template>
+                    </Input>
+                </FormItem>
                 <FormItem label="手机号" name="mobile">
                     <Input v-model:value="form.mobile">
-                        <template #prefix> <UserOutlined twoToneColor="#52c41a"></UserOutlined> </template>
+                        <template #prefix> <PhoneOutlined twoToneColor="#52c41a"></PhoneOutlined> </template>
                     </Input>
                 </FormItem>
                 <FormItem label="密码" name="password">
@@ -36,7 +41,7 @@
     import * as storeTypes from '@/store/types'
     import jsCookie from 'js-cookie'
     import { Form, FormItem, Input, RadioGroup, RadioButton, Space, Button } from 'ant-design-vue'
-    import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+    import { UserOutlined, LockOutlined, PhoneOutlined } from '@ant-design/icons-vue'
     import LoginModel from './config/model'
     import formRules from './config/formRules'
 
@@ -52,6 +57,7 @@
             RadioButton,
             UserOutlined,
             LockOutlined,
+            PhoneOutlined,
         },
         setup(props, ctx){
             const formRef = ref()
@@ -77,7 +83,9 @@
                         router.push({name: 'Home'})
                     }
                 }else if(type === 2){
-                    model.register()
+                    model.register().then(r => {
+                        if(r) isRegister.value = false
+                    })
                 }
             }
 

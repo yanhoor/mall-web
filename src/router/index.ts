@@ -20,7 +20,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
-    redirect: '/admin',
+    redirect: '/me',
     meta: {
       title: '首页'
     },
@@ -30,6 +30,15 @@ export const constantRoutes: Array<RouteRecordRaw> = [
 ]
 
 export const asyncRoutes = [
+  {
+    path: 'admin',
+    name: 'Admin',
+    meta: {
+      title: '管理员列表',
+      roles: superAuth
+    },
+    component: () => import( '@/views/admin/List.vue')
+  },
   {
     path: 'user',
     name: 'User',
@@ -94,8 +103,8 @@ export const asyncRoutes = [
     component: () => import( '@/views/goodsLabel/List.vue')
   },
   {
-    path: 'admin',
-    name: 'Admin',
+    path: 'me',
+    name: 'Me',
     meta: {
       title: '个人信息',
       roles: allAuth

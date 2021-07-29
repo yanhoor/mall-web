@@ -7,6 +7,12 @@ export default [
         icon: PaperClipOutlined,
         children: [
             {
+                key: 12,
+                title: '管理员列表',
+                icon: TeamOutlined,
+                path: '/admin'
+            },
+            {
                 key: 1,
                 title: '用户数据',
                 icon: TeamOutlined,
@@ -75,6 +81,6 @@ export default [
         key: 4,
         title: '个人信息',
         icon: UserOutlined,
-        path: '/admin'
+        path: '/me'
     },
 ]

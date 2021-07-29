@@ -32,7 +32,7 @@
 <script lang="ts">
     import {defineComponent, reactive, computed, ref} from 'vue'
     import { useStore } from 'vuex'
-    import GoodsCategoryModel from "./config/goodsCategoryModel"
+    import GoodsCategoryModel from "./config/model"
     import { Tree, Button, Modal, Form, Input, FormItem, Dropdown, Menu, MenuItem, Row, Col } from 'ant-design-vue'
 
     export default defineComponent({
