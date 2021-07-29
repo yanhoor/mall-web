@@ -4,7 +4,8 @@ export default class Model extends PageFetchModel{
 
     form = {
         mobile: '',
-        password: ''
+        password: '',
+        type: '2',
     }
 
     async register(){

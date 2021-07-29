@@ -12,10 +12,18 @@
                         <template #prefix> <LockOutlined twoToneColor="#52c41a"></LockOutlined> </template>
                     </Input>
                 </FormItem>
+                <FormItem label="账号类型" name="type" v-if="isRegister">
+                    <RadioGroup v-model:value="form.type" style="width: 100%; text-align: left">
+                        <RadioButton value="1">超级管理员</RadioButton>
+                        <RadioButton value="2">店铺管理员</RadioButton>
+                    </RadioGroup>
+                </FormItem>
             </Form>
             <Space direction="vertical" style="width: 100%">
-                <Button type="primary" block @click="validateForm(1)">登录</Button>
-                <Button type="primary" block @click="validateForm(2)">注册</Button>
+                <Button class="btn" type="primary" block @click="validateForm(1)" v-if="!isRegister">登录</Button>
+                <Button type="link" block @click="toRegister" v-if="!isRegister">没有账号？去注册</Button>
+                <Button class="btn" type="primary" block @click="validateForm(2)" v-if="isRegister">注册</Button>
+                <Button type="link" block @click="isRegister = false" v-if="isRegister">已有账号？去登录</Button>
             </Space>
         </div>
     </div>
@@ -27,7 +35,7 @@
     import { useStore } from 'vuex'
     import * as storeTypes from '@/store/types'
     import jsCookie from 'js-cookie'
-    import { Form, FormItem, Input, Drawer, Row, Space, Button } from 'ant-design-vue'
+    import { Form, FormItem, Input, RadioGroup, RadioButton, Space, Button } from 'ant-design-vue'
     import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
     import LoginModel from './config/model'
     import formRules from './config/formRules'
@@ -40,6 +48,8 @@
             Input,
             Space,
             Button,
+            RadioGroup,
+            RadioButton,
             UserOutlined,
             LockOutlined,
         },
@@ -50,6 +60,7 @@
             const model = reactive<LoginModel>(new LoginModel())
             const form = model.form
             const rules = formRules
+            const isRegister = ref(false)
 
             // 清空登录信息
             jsCookie.remove('SID')
@@ -70,12 +81,18 @@
                 }
             }
 
+            const toRegister = () => {
+                isRegister.value = true
+            }
+
             return {
                 formRef,
                 model,
                 form,
                 rules,
+                isRegister,
                 validateForm,
+                toRegister,
             }
         }
     })
@@ -96,6 +113,9 @@
             padding: 30px;
             border-radius: 5px;
             text-align: center;
+            .btn{
+                width: 100%;
+            }
         }
     }
 </style>
