@@ -30,7 +30,7 @@ export default class UserLabelModel extends ListFetchModel{
     }
 
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.userLabelList, { ...this.getPaginationParams()}, { method: 'get' }).then(r => {
+        return await this.$http.fetch(this.$urls.userLabelList, { ...this.filterForm, ...this.getPaginationParams()}, { method: 'get' }).then(r => {
             return r;
         })
     }

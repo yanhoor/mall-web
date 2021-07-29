@@ -18,7 +18,8 @@ interface SkuItem{
 
 export default class GoodsModel extends ListFetchModel{
     filterForm = {
-        name: ''
+        name: '',
+        category_ids: []
     }
     itemForm: Item
     labelList = []
@@ -51,7 +52,8 @@ export default class GoodsModel extends ListFetchModel{
     }
 
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.goodsList, { ...this.filterForm, ...this.getPaginationParams()}, { method: 'get' }).then(r => {
+        let category_id
+        return await this.$http.fetch(this.$urls.goodsList, { ...this.filterForm, ...this.getPaginationParams()}).then(r => {
             return r;
         })
     }

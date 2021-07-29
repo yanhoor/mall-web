@@ -7,6 +7,7 @@
                 :value="idList"
                 @update:value="onSelectUpdate"
                 @change="onChange"
+                placeholder="请选择"
                 change-on-select>
         </Cascader>
     </div>

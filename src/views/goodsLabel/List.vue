@@ -1,24 +1,34 @@
 <template>
-    <div>
-        <Row>
-            <Col :span="8">
-                <Form-item label="标签名称">
-                    <Input placeholder="请输入标签名称" v-model:value="form.name"/>
-                </Form-item>
-            </Col>
-        </Row>
-        <Button @click="model.getListData()">查询</Button>
-        <Button @click="addItem">新增</Button>
+    <ListWrapper>
+        <template #filterForm>
+            <Form layout="inline" ref="formRef" :model="form">
+                <Row style="width: 100%" :gutter="[0, 10]">
+                    <Col :span="8">
+                        <Form-item label="标签名称" name="name">
+                            <Input placeholder="请输入标签名称" v-model:value="form.name"/>
+                        </Form-item>
+                    </Col>
+                </Row>
+            </Form>
+        </template>
+
+        <template #filterActions>
+            <Button @click="model.getListData()">查询</Button>
+            <Button @click="resetForm">重置</Button>
+            <Button @click="addItem">新增</Button>
+        </template>
+
         <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction" :model="model"></Table>
-    </div>
-    <Drawer v-model:visible="model.showEdit" width="500" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑标签' : '新增标签'">
-        <Edit :model="model"></Edit>
-    </Drawer>
+        <Drawer v-model:visible="model.showEdit" width="500" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑标签' : '新增标签'">
+            <Edit :model="model"></Edit>
+        </Drawer>
+    </ListWrapper>
 </template>
 
 <script lang="ts">
-    import { defineComponent, reactive } from 'vue'
+    import {defineComponent, reactive, ref} from 'vue'
     import { Form, FormItem, Input, Row, Col, Button } from 'ant-design-vue'
+    import ListWrapper from '../layout/components/_listContainer.vue'
     import Table from '@/components/customAnt/table.vue'
     import Drawer from '@/components/customAnt/drawer.vue'
     import Edit from './Edit.vue'
@@ -28,8 +38,10 @@
     export default defineComponent({
         name: 'goods-label-list',
         components: {
+            ListWrapper,
             Edit,
             Table,
+            Form,
             FormItem,
             Button,
             Drawer,
@@ -41,6 +53,7 @@
             const model = reactive<GoodsLabelModel>(new GoodsLabelModel())
             model.initData()
             const form = model.filterForm
+            const formRef = ref()
 
             const handleAction = (type: string, data: any) => {
                 model.showEdit = true
@@ -51,12 +64,19 @@
                 model.itemForm = Object.assign(model.itemForm, model.initForm()) // todo: 不可以直接赋值
             }
 
+            const resetForm = () => {
+                formRef.value.resetFields()
+                model.getListData()
+            }
+
             return {
                 model,
                 form,
+                formRef,
                 columns,
                 handleAction,
                 addItem,
+                resetForm,
             }
         }
     })

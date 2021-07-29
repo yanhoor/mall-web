@@ -30,7 +30,7 @@ export default class GoodsLabelModel extends ListFetchModel{
     }
 
     async getList(): Promise<any> {
-        return await this.$http.fetch(this.$urls.goodsLabelList, { ...this.getPaginationParams()}, { method: 'get' }).then(r => {
+        return await this.$http.fetch(this.$urls.goodsLabelList, { ...this.filterForm, ...this.getPaginationParams()}, { method: 'get' }).then(r => {
             return r;
         })
     }

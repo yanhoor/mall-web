@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="filter_wrapper">
+    <ListWrapper>
+        <template #filterForm>
             <Form layout="inline" ref="formRef" :model="form">
                 <Row style="width: 100%" :gutter="[0, 10]">
                     <Col :span="8">
@@ -19,12 +19,12 @@
                     </Col>
                 </Row>
             </Form>
-            <div class="filter_action_wrapper">
-                <Button @click="model.getListData()">查询</Button>
-                <Button @click="resetForm">重置</Button>
-                <Button @click="addItem">新增</Button>
-            </div>
-        </div>
+        </template>
+        <template #filterActions>
+            <Button @click="model.getListData()">查询</Button>
+            <Button @click="resetForm">重置</Button>
+            <Button @click="addItem">新增</Button>
+        </template>
         <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction" :model="model" :expanded="true">
             <template #expand="{record}">
                 <Form layout="inline" :labelCol="{span: 14}" :wrapperCol="{span: 24}" class="table_form">
@@ -64,24 +64,26 @@
                 </Form>
             </template>
         </Table>
-    </div>
-    <Drawer v-model:visible="model.showEdit" width="600" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑店铺信息' : '新增店铺信息'">
-        <Edit :model="model"></Edit>
-    </Drawer>
+        <Drawer v-model:visible="model.showEdit" width="600" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑店铺信息' : '新增店铺信息'">
+            <Edit :model="model"></Edit>
+        </Drawer>
+    </ListWrapper>
 </template>
 
 <script lang="ts">
     import { defineComponent, reactive, ref } from 'vue'
     import { Form, FormItem, Input, Row, Col, Button, Select, SelectOption } from 'ant-design-vue'
+    import ListWrapper from '../layout/components/_listContainer.vue'
     import Table from '@/components/customAnt/table.vue'
     import Drawer from '@/components/customAnt/drawer.vue'
     import Edit from './Edit.vue'
-    import columns from "./config/columns";
-    import ShopModel from "@/views/shop/config/model";
+    import columns from "./config/columns"
+    import ShopModel from "@/views/shop/config/model"
 
     export default defineComponent({
         name: 'shop',
         components: {
+            ListWrapper,
             Edit,
             Table,
             Form,
@@ -103,7 +105,7 @@
 
             const resetForm = () => {
                 formRef.value.resetFields()
-                model.initData()
+                model.getListData()
             }
             const handleAction = (type: string, data: any) => {
                 model.showEdit = true
@@ -131,10 +133,6 @@
 
 <style lang="less" scoped>
     @import "~@/assets/style/variables";
-
-    .filter_action_wrapper{
-        margin: 10px 0;
-    }
 
     .table_form{
         :deep(.ant-form-item){
