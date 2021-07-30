@@ -45,6 +45,17 @@ export default class AdminModel extends ListFetchModel{
         })
     }
 
+    async changeState(id: number, state: number): Promise<any>{
+        return await this.$http.fetch(this.$urls.adminChangeState, { state, id }).then(r => {
+            if(r.success){
+               this.$message.success(r.msg)
+                return r
+            }else{
+                this.$message.error(r.msg)
+            }
+        })
+    }
+
     postForm(): Promise<any> {
         return Promise.resolve(undefined);
     }

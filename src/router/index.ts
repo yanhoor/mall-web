@@ -98,7 +98,7 @@ export const asyncRoutes = [
     name: 'GoodsLabel',
     meta: {
       title: '商品标签',
-      roles: allAuth
+      roles: superAuth
     },
     component: () => import( '@/views/goodsLabel/List.vue')
   },

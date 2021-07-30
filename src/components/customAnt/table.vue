@@ -40,7 +40,13 @@ todo: scroll 和 expandedRowRender 一起用报错？
                     <!--操作栏-->
                     <div v-if="column.key === 'action'">
                         <template v-for="action of column.actions">
-                            <Button @click.stop="handleActionClick(action.event, record)" type="link">{{ action.title }}</Button>
+                            <Button
+                                    :disabled="action.checkDisabled ? action.checkDisabled({text, record, index}) : false"
+                                    @click.stop="handleActionClick(action.event, record)"
+                                    type="link"
+                                    v-if="action.checkShow ? action.checkShow({text, record, index}) : true">
+                                {{ action.title }}
+                            </Button>
                         </template>
                     </div>
 

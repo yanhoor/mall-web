@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>商品分类管理</h3>
+        <h3>商品分类管理 <span style="font-size: 12px;">（节点右键添加子节点）</span></h3>
         <Button @click="onAddFirst">添加一级分类</Button>
         <Tree show-line :treeData="goodsModel.treeData" :replace-fields="{ key: 'id', title: 'name' }" :load-data="onLoadData">
             <template #title="{ dataRef }">

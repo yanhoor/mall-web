@@ -50,8 +50,19 @@
             const formRef = ref()
             const form = model.filterForm
 
-            const handleAction = (type: string, data: any) => {
-                model.showEdit = true
+            const handleAction = async (type: string, data: any) => {
+                let result
+                switch (type) {
+                    case 'disabled':
+                        result = await model.changeState(data.id, 2)
+                        break
+                    case 'enable':
+                        result = await model.changeState(data.id, 1)
+                        break
+                }
+                if(result){
+                    await model.refresh()
+                }
             }
             const resetForm = () => {
                 formRef.value.resetFields()

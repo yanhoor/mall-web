@@ -6,6 +6,7 @@ export default {
     adminLogout: '/admin/logout',
     adminInfo: '/admin/user_info',
     adminUpdateAvatar: '/admin/update_avatar',
+    adminChangeState: '/admin/change_state',
     saveUser: '/user/save',
     listUser: '/user/list',
     userLabelList: '/user/label_list',

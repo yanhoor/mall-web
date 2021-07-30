@@ -80,7 +80,7 @@
                 if(type === 1){
                     const res = await model.login()
                     if(res){
-                        router.push({name: 'Home'})
+                        router.replace({name: 'Home'})
                     }
                 }else if(type === 2){
                     model.register().then(r => {

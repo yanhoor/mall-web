@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-    import {defineComponent, reactive, ref, isReactive, isRef} from 'vue'
+    import {defineComponent, reactive, ref, isReactive, isRef, computed} from 'vue'
     import { Form, FormItem, Input, Row, Col, Button } from 'ant-design-vue'
     import ListWrapper from '../layout/components/_listContainer.vue'
     import Table from '@/components/customAnt/table.vue'
@@ -44,6 +44,7 @@
     import Edit from './Edit.vue'
     import columns from "./config/columns"
     import CategorySelect from './components/_categorySelect.vue'
+    import {useStore} from "vuex"
 
     export default defineComponent({
         name: 'goods-list',
@@ -65,6 +66,9 @@
             model.initData()
             const form = model.filterForm
             const formRef = ref()
+            const store = useStore()
+
+            const shopId = computed(() => store.state.admin.shop_id)
 
             const handleAction = (type: string, data: any) => {
                 model.showEdit = true
@@ -79,14 +83,16 @@
             }
 
             const addItem = () => {
+                if(!shopId.value){
+                    model.$message.error('请先添加店铺')
+                    return false
+                }
                 model.showEdit = true
                 model.itemForm = Object.assign(model.itemForm, model.initForm())
-                console.log('---------------', model.itemForm)
                 model.getLabelList()
             }
 
             const exportExcel = () => {
-                // $http.fetch('/goods/export/fileName', {}, {method: 'get', responseType: 'arraybuffer'})
                 const form = document.querySelector('#downloadForm') as HTMLFormElement
                 form.submit()
             }

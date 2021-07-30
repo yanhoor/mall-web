@@ -55,6 +55,9 @@
                     <FormItem label="地址">
                         <span class="expand_item_content">{{ record.headAddress + record.tailAddress }}</span>
                     </FormItem>
+                    <FormItem label="创建人">
+                        <span class="expand_item_content">{{ record.admin && record.admin.length ? record.admin[0].name : '' }}</span>
+                    </FormItem>
                     <FormItem label="创建时间">
                         <span class="expand_item_content">{{ record.create_time }}</span>
                     </FormItem>

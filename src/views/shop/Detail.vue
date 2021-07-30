@@ -1,7 +1,7 @@
 <template>
     <div class="detail_wrapper">
         <Row>
-            <Col :span="8">
+            <Col :span="8" v-if="shopId">
                 <GoodsCategory></GoodsCategory>
             </Col>
             <Col :span="16">
@@ -41,6 +41,7 @@
 
             return {
                 model,
+                shopId,
             }
         }
     })

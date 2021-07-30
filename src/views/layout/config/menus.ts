@@ -12,25 +12,25 @@ export default [
                 icon: TeamOutlined,
                 path: '/admin'
             },
-            {
-                key: 1,
-                title: '用户数据',
-                icon: TeamOutlined,
-                children: [
-                    {
-                        key: 2,
-                        title: '用户管理',
-                        icon: TeamOutlined,
-                        path: '/user'
-                    },
-                    {
-                        key: 3,
-                        title: '用户标签',
-                        icon: TagOutlined,
-                        path: '/userLabel'
-                    },
-                ]
-            },
+            // {
+            //     key: 1,
+            //     title: '用户数据',
+            //     icon: TeamOutlined,
+            //     children: [
+            //         {
+            //             key: 2,
+            //             title: '用户管理',
+            //             icon: TeamOutlined,
+            //             path: '/user'
+            //         },
+            //         {
+            //             key: 3,
+            //             title: '用户标签',
+            //             icon: TagOutlined,
+            //             path: '/userLabel'
+            //         },
+            //     ]
+            // },
             {
                 key: 5,
                 title: '店铺数据',

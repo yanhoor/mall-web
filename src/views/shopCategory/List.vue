@@ -17,7 +17,7 @@
             <Button @click="addItem">新增</Button>
         </template>
         <Table :columns="columns" :data-source="model.pageList" @actionClick="handleAction" :model="model"></Table>
-        <Drawer v-model:visible="model.showEdit" width="500" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑店铺标签' : '新增店铺标签'">
+        <Drawer v-model:visible="model.showEdit" width="500" @close="model.closeEdit()" :title="model.itemForm.id ? '编辑店铺分类' : '新增店铺分类'">
             <Edit :model="model"></Edit>
         </Drawer>
     </ListWrapper>
