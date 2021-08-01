@@ -130,6 +130,7 @@
                     if (form.codeList.length < 3) throw new Error('请选择完整地址')
                     model.saveForm().then(r => {
                         if(r){
+                            form.id = r.id
                             store.dispatch(storeTypes.UPDATE_ADMIN)
                         }
                     })

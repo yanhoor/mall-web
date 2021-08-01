@@ -13,6 +13,12 @@ export default createStore({
   state: {
     admin: null
   },
+  getters: {
+    shopId(state, getters){
+      const admin = state.admin as any
+      return admin?.shop_id
+    }
+  },
   mutations: {
     [storeTypes.UPDATE_ADMIN](state, payload){
       state.admin = payload

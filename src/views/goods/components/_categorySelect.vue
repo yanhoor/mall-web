@@ -46,7 +46,7 @@
             const options = ref<Option[]>([])
 
             const store = useStore()
-            const shopId = computed(() => store.state.admin.shop_id)
+            const shopId = computed(() => store.getters.shopId)
 
             const fetchChildren = (parent_id: string = '0') => {
                 return $http.fetch(urls.goodsCategoryChildren, { shop_id: shopId.value, parent_id }, { method: 'get' }).then(r => {

@@ -1,6 +1,6 @@
 <template>
     <Breadcrumb>
-        <BreadcrumbItem v-for="route of routes.matched">
+        <BreadcrumbItem v-for="route of routes.matched" @click="onClickBreadcrumbItem(route.path)">
             <Button type="link" :disabled="routes.path === route.path">{{ route.meta.title }}</Button>
         </BreadcrumbItem>
     </Breadcrumb>
@@ -74,12 +74,17 @@
                 }
             }
 
+            const onClickBreadcrumbItem = (path: string) => {
+                router.push(path)
+            }
+
             return {
                 routes,
                 clickMenu,
                 avatar: computed(() => {
                     return urls.IMG_HOST + store.state.admin?.avatar ?? ''
-                })
+                }),
+                onClickBreadcrumbItem,
             }
         }
     })

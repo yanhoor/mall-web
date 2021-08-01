@@ -33,7 +33,7 @@
             const model = reactive<ShopModel>(new ShopModel())
             const store = useStore()
 
-            const shopId = computed(() => store.state.admin.shop_id)
+            const shopId = computed(() => store.getters.shopId)
             model.getCateList()
             if(shopId.value){
                 model.getDetail(shopId.value)

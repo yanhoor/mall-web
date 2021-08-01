@@ -36,7 +36,7 @@
     import { Tree, Button, Modal, Form, Input, FormItem, Dropdown, Menu, MenuItem, Row, Col } from 'ant-design-vue'
 
     export default defineComponent({
-        name: 'shop-detail',
+        name: 'goods-category',
         components: {
             Tree,
             Button,
@@ -57,7 +57,7 @@
             let menuKey = ref() // 选中的右键菜单
             let itemForm = goodsModel.itemForm
 
-            const shopId = computed(() => store.state.admin.shop_id)
+            const shopId = computed(() => store.getters.shopId)
 
             goodsModel.initTreeData(shopId.value)
 

@@ -68,7 +68,7 @@
             const formRef = ref()
             const store = useStore()
 
-            const shopId = computed(() => store.state.admin.shop_id)
+            const shopId = computed(() => store.getters.shopId)
 
             const handleAction = (type: string, data: any) => {
                 model.showEdit = true
