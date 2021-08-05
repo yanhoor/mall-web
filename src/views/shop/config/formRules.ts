@@ -5,6 +5,8 @@ export default {
     'contract': [rules.required(), rules.mobile()],
     'shop_category_id': [rules.required()],
     'desc': [rules.required()],
+    'deliver_fee': [rules.required()],
+    'deliver_fee_start_amount': [rules.required()],
     // 'opening_start': [rules.required()],
     // 'opening_end': [rules.required()],
     'timeRange': [rules.required()],

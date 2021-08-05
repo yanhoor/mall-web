@@ -12,6 +12,19 @@ export default [
                 icon: TeamOutlined,
                 path: '/admin'
             },
+            {
+                key: 13,
+                title: '商城配置',
+                icon: TeamOutlined,
+                children: [
+                    {
+                        key: 14,
+                        title: '首页配置',
+                        icon: TeamOutlined,
+                        path: '/homeConfig'
+                    },
+                ]
+            },
             // {
             //     key: 1,
             //     title: '用户数据',

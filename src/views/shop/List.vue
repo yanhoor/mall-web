@@ -135,13 +135,12 @@
 </script>
 
 <style lang="less" scoped>
-    @import "~@/assets/style/variables";
 
     .table_form{
         :deep(.ant-form-item){
             width: 45%;
             .expand_item_content{
-                color: @minor-font;
+                color: var(--text-color-minor);
             }
         }
     }

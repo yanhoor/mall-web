@@ -24,4 +24,6 @@ export default {
     goodsLabelList: '/goods/label_list',
     goodsLabelSave: '/goods/label_save',
     addressChildren: '/address/query_children',
+    homeConfigList: '/mall/home_config_list',
+    homeConfigSave: '/mall/home_config_save',
 }

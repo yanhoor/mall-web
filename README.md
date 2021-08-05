@@ -1,6 +1,6 @@
 # mall-web
 
-后台管理系统，[对应后端接口](https://github.com/yanhoor/koa2-elm)
+后台管理系统，[对应后端接口](https://github.com/yanhoor/koa2-elm), [H5端](https://github.com/yanhoor/mall-mobile)
 
 ## 技术栈
 

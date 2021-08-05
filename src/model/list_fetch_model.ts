@@ -9,7 +9,7 @@ export default abstract class ListFetchModel extends PageFetchModel{
         current: 1,
         pageSize: 20,
         total: 0,
-        pageSizeOptions: ['5', '10', '20', '30'],
+        pageSizeOptions: ['3', '5', '10', '20', '30'],
         showSizeChanger: true
     }
 

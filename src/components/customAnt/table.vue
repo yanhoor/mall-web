@@ -35,6 +35,7 @@ todo: scroll 和 expandedRowRender 一起用报错？
                     :key="column.key"
                     :custom-render="column.customRender"
                     :data-index="column.dataIndex"
+                    :width="column.width"
                     :title="column.title">
                 <template #default="{text, record, index}">
                     <!--操作栏-->

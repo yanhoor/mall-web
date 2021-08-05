@@ -7,8 +7,6 @@ const allAuth = ['super', 'admin']
 const superAuth = ['super']
 
 export const constantRoutes: Array<RouteRecordRaw> = [
-    // 参考：https://next.router.vuejs.org/zh/guide/essentials/dynamic-matching.html#%E6%8D%95%E8%8E%B7%E6%89%80%E6%9C%89%E8%B7%AF%E7%94%B1%E6%88%96-404-not-found-%E8%B7%AF%E7%94%B1
-    // 如果路由不存在，$route.params.pathMatch 返回一个数组，包含想要进入的路由url（值等于url.split('/')，如 `/userLabel/23` 返回 ["userLabel", "23"]）。否则得到 undefined
   {
     path: '/login',
     name: 'Login',
@@ -26,7 +24,14 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     },
     component: () => import( '@/views/layout/Layout.vue'),
   },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import( '@/views/PageNotFound.vue') },
+
+  // 参考：https://next.router.vuejs.org/zh/guide/essentials/dynamic-matching.html#%E6%8D%95%E8%8E%B7%E6%89%80%E6%9C%89%E8%B7%AF%E7%94%B1%E6%88%96-404-not-found-%E8%B7%AF%E7%94%B1
+  // 如果路由不存在，$route.params.pathMatch 返回一个数组，包含想要进入的路由url（值等于url.split('/')，如 `/userLabel/23` 返回 ["userLabel", "23"]）。否则得到 undefined
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import( '@/views/PageNotFound.vue')
+  },
 ]
 
 export const asyncRoutes = [
@@ -38,6 +43,15 @@ export const asyncRoutes = [
       roles: superAuth
     },
     component: () => import( '@/views/admin/List.vue')
+  },
+  {
+    path: 'homeConfig',
+    name: 'HomeConfig',
+    meta: {
+      title: '首页配置',
+      roles: superAuth
+    },
+    component: () => import( '@/views/homeConfig/List.vue')
   },
   {
     path: 'user',
