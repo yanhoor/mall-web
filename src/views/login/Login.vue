@@ -62,6 +62,7 @@
         setup(props, ctx){
             const formRef = ref()
             const router = useRouter()
+            const route = useRoute()
             const store = useStore()
             const model = reactive<LoginModel>(new LoginModel())
             const form = model.form
@@ -79,8 +80,9 @@
                 })
                 if(type === 1){
                     const res = await model.login()
+                    const from = route.query.from
                     if(res){
-                        router.replace({name: 'Home'})
+                        from ? router.replace({path: from as string}) : router.replace({name: 'Home'})
                     }
                 }else if(type === 2){
                     model.register().then(r => {

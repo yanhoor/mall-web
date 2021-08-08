@@ -67,7 +67,7 @@
                 default: 5
             },
         },
-        emit: ['completed'],
+        emit: ['update:fileList'],
         setup(props: any, ctx){
             const previewVisible = ref(false)
             const previewImage = ref<string | undefined>('')
@@ -125,13 +125,13 @@
             }
 
             const handleCancel = () => {
-                previewVisible.value = false;
+                previewVisible.value = false
             }
 
             const handlePreview = async (file: FileItem) => {
                 previewImage.value = file.url
                 previewVisible.value = true
-            };
+            }
 
             return {
                 previewVisible,
