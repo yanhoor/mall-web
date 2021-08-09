@@ -2,7 +2,20 @@ import { PaperClipOutlined, TeamOutlined, TagOutlined, UserOutlined, ShopOutline
 
 export default [
     {
-        key: 'data_management',
+        key: 13,
+        title: '商城配置',
+        icon: TeamOutlined,
+        children: [
+            {
+                key: 14,
+                title: '首页配置',
+                icon: TeamOutlined,
+                path: '/homeConfig'
+            },
+        ]
+    },
+    {
+        key: 15,
         title: '数据管理',
         icon: PaperClipOutlined,
         children: [
@@ -11,19 +24,6 @@ export default [
                 title: '管理员列表',
                 icon: TeamOutlined,
                 path: '/admin'
-            },
-            {
-                key: 13,
-                title: '商城配置',
-                icon: TeamOutlined,
-                children: [
-                    {
-                        key: 14,
-                        title: '首页配置',
-                        icon: TeamOutlined,
-                        path: '/homeConfig'
-                    },
-                ]
             },
             // {
             //     key: 1,
