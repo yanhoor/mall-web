@@ -17,10 +17,7 @@ export default <ColumnProps>[
         dataIndex: 'category',
         key: 'category',
         customRender: ({ text, record, index}: any) => {
-            return record.category.map((label: {name: string}) => h(
-                'span',
-                [label.name]
-            ))
+            return record.shop_category.name
         }
     },
     {

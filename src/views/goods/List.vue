@@ -72,8 +72,8 @@
 
             const handleAction = (type: string, data: any) => {
                 model.showEdit = true
-                const idList = data.labelList.map((label: any) => label.id)
-                model.itemForm = Object.assign(model.itemForm, data, {labelList: idList}) // todo: 不可以直接赋值
+                const idList = data.label_list.map((label: any) => label.id)
+                model.itemForm = Object.assign(model.itemForm, data, {label_list: idList}) // todo: 不可以直接赋值
                 model.getLabelList()
             }
 

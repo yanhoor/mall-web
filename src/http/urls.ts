@@ -17,7 +17,7 @@ export default {
     shopList: '/shop/list',
     shopSave: '/shop/save',
     shopDetail: '/shop/detail',
-    goodsCategoryAdd: '/goods/category_add',
+    goodsCategorySave: '/goods/category_save',
     goodsCategoryChildren: '/goods/category_children',
     goodsSave: '/goods/save',
     goodsList: '/goods/list',

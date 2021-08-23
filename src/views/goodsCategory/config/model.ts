@@ -44,7 +44,7 @@ export default class GoodsCategoryModel extends ListFetchModel{
     }
 
     async postForm(){
-        return await this.$http.fetch(this.$urls.goodsCategoryAdd, this.itemForm)
+        return await this.$http.fetch(this.$urls.goodsCategorySave, this.itemForm)
     }
 
     getList(): Promise<any> {

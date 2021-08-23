@@ -16,19 +16,19 @@ export default <ColumnProps>[
     },
     {
         title: '所属分类',
-        dataIndex: 'category_id',
-        key: 'category_id',
+        dataIndex: 'category_list',
+        key: 'category_list',
         customRender: ({ text, record, index}: any) => {
-            const sl =  record.category.map((cate: {name: string}) => cate.name)
+            const sl =  record.category_list.map((cate: {name: string}) => cate.name)
             return sl.join('/')
         }
     },
     {
         title: '标签',
-        dataIndex: 'labelList',
-        key: 'labelList',
+        dataIndex: 'label_list',
+        key: 'label_list',
         customRender: ({ text, record, index}: any) => {
-            return record.labelList.map((label: {name: string, color: string}) => h(
+            return record.label_list.map((label: {name: string, color: string}) => h(
                 Tag,
                 {
                     color: label.color,

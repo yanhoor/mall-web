@@ -35,7 +35,7 @@
                         <span class="expand_item_content">{{ record.contract }}</span>
                     </FormItem>
                     <FormItem label="所属分类">
-                        <span class="expand_item_content">{{ record.category.length ? record.category[0].name : '-' }}</span>
+                        <span class="expand_item_content">{{ record.shop_category?.name ?? '-' }}</span>
                     </FormItem>
                     <FormItem label="简介">
                         <span class="expand_item_content">{{ record.desc }}</span>
@@ -56,7 +56,7 @@
                         <span class="expand_item_content">{{ record.headAddress + record.tailAddress }}</span>
                     </FormItem>
                     <FormItem label="创建人">
-                        <span class="expand_item_content">{{ record.admin && record.admin.length ? record.admin[0].name : '' }}</span>
+                        <span class="expand_item_content">{{ record.admin?.name ?? '' }}</span>
                     </FormItem>
                     <FormItem label="创建时间">
                         <span class="expand_item_content">{{ record.create_time }}</span>
