@@ -70,7 +70,7 @@ todo: scroll 和 expandedRowRender 一起用报错？
     import { TableState, ColumnProps, TableStateFilters } from 'ant-design-vue/es/table/interface';
     import { defineComponent, ref, computed, onMounted, nextTick, watch } from 'vue'
     import ListFetchModel from "@/model/list_fetch_model"
-    import { debounce } from 'lodash'
+    import { debounce } from 'lodash-es'
 
     type Pagination = TableState['pagination']
     type Key = ColumnProps['key']

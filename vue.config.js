@@ -33,7 +33,7 @@ const outputDir = `dist/mall_web_${process.env.NODE_ENV}_${nowDate}`;
 console.log('当前时间-->', nowDate);
 
 module.exports = {
-    publicPath: './',
+    publicPath: '/manage/', // 应用部署在 /manage 子目录
     outputDir: path.resolve(__dirname, outputDir), // 构建文件输出目录
     assetsDir: 'static', // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
     productionSourceMap: false,
